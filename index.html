@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duarte Sánchez Vázquez — Sales Candidate Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   OMG report look — palette, type, and components
+   ============================================================ */
+:root{
+  --c-will:#A2C0D6;
+  --c-dna:#E68E70;
+  --c-tactical:#839786;
+  --c-other:#C0C4C7;
+
+  --fill-under:#9D9FA1;
+  --navy:#1F2537;
+  --navy-rule:#3C4457;
+
+  --page:#FFFFFF;
+  --shell:#F5F6F7;
+  --ink:#202124;
+  --ink-soft:#5F6368;
+  --ink-faint:#9AA0A6;
+  --rule:#DADCE0;
+  --rule-soft:#EAECEE;
+  --hover:#F1F3F4;
+
+  --bar-h:36px;
+  --bar-min:34px;
+}
+:root[data-theme="dark"]{
+  --c-will:#8FB3CD;
+  --c-dna:#E68E70;
+  --c-tactical:#8CA491;
+  --c-other:#6C737A;
+
+  --fill-under:#6E7378;
+  --navy:#161B26;
+  --navy-rule:#333B4C;
+
+  --page:#181B21;
+  --shell:#12151A;
+  --ink:#E8EAED;
+  --ink-soft:#A5ABB3;
+  --ink-faint:#787F88;
+  --rule:#333941;
+  --rule-soft:#262B32;
+  --hover:#20242B;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  background:var(--shell); color:var(--ink);
+  font-size:15px; -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;color:inherit;}
+
+/* ---------- Shell ---------- */
+.app{display:flex;min-height:100vh;}
+
+.sidebar{
+  width:274px;flex-shrink:0;background:var(--page);border-right:1px solid var(--rule);
+  position:fixed;top:0;left:0;bottom:0;z-index:40;overflow-y:auto;
+  display:flex;flex-direction:column;transition:transform .2s ease;
+}
+.sidebar.closed{transform:translateX(-274px);}
+.sb-head{padding:26px 22px 20px;border-bottom:1px solid var(--rule);}
+.sb-name{font-size:13px;color:var(--ink-faint);letter-spacing:.01em;}
+.sb-doc{font-size:19px;font-weight:400;margin-top:3px;line-height:1.25;}
+.sb-role{font-size:11.5px;color:var(--ink-faint);margin-top:8px;letter-spacing:.06em;text-transform:uppercase;}
+
+.sb-nav{padding:14px 12px 20px;flex:1;}
+.sb-group-label{font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);padding:16px 10px 6px;}
+.sb-item{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:4px;
+  font-size:14px;cursor:pointer;color:var(--ink);line-height:1.3;
+}
+.sb-item:hover{background:var(--hover);}
+.sb-item.active{background:var(--hover);font-weight:500;}
+.sb-item .dot{width:9px;height:9px;border-radius:50%;background:var(--c,var(--ink-faint));flex-shrink:0;}
+.sb-item.active .dot{box-shadow:0 0 0 3px color-mix(in srgb, var(--c,var(--ink-faint)) 30%, transparent);}
+.sb-sub{padding:2px 0 6px 30px;display:none;}
+.sb-sub.open{display:block;}
+.sb-subitem{
+  display:block;padding:6px 10px;border-radius:4px;font-size:13px;color:var(--ink-soft);cursor:pointer;line-height:1.35;
+}
+.sb-subitem:hover{background:var(--hover);}
+.sb-subitem.active{color:var(--ink);font-weight:500;background:var(--hover);}
+
+.sb-foot{padding:18px 20px 22px;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:16px;}
+.sb-foot-row{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.sb-foot-label{font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);}
+
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:999px;overflow:hidden;}
+.seg button{border:none;background:transparent;padding:6px 14px;font-size:12.5px;color:var(--ink-soft);cursor:pointer;}
+.seg button.on{background:var(--ink);color:var(--page);}
+
+.seg.lang{display:flex;width:100%;padding:3px;border-radius:999px;overflow:visible;background:var(--hover);}
+.seg.lang button{
+  flex:1;padding:11px 8px;font-size:14px;line-height:1.2;border-radius:999px;
+  color:var(--ink-soft);transition:background .12s,color .12s;
+}
+.seg.lang button:hover{color:var(--ink);}
+.seg.lang button.on{background:var(--ink);color:var(--page);font-weight:500;}
+
+/* topbar copy — only where the sidebar is off-canvas */
+.topbar-spacer{flex:1;}
+#topLang{display:none;}
+.seg.lang.compact{width:auto;}
+.seg.lang.compact button{padding:7px 14px;font-size:13px;}
+.icon-btn{
+  width:34px;height:34px;border-radius:50%;border:1px solid var(--rule);background:transparent;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-soft);
+}
+.icon-btn svg{width:17px;height:17px;}
+
+.main{flex:1;min-width:0;margin-left:274px;background:var(--page);transition:margin-left .2s ease;}
+.main.wide{margin-left:0;}
+
+.topbar{
+  position:sticky;top:0;z-index:30;background:var(--page);border-bottom:1px solid var(--rule);
+  display:flex;align-items:center;gap:14px;padding:11px 32px;
+}
+.crumb{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);}
+.crumb b{font-weight:500;color:var(--ink-soft);}
+.burger{width:34px;height:34px;border:1px solid var(--rule);border-radius:4px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.burger span{display:block;width:15px;height:1.5px;background:var(--ink-soft);position:relative;}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0;width:15px;height:1.5px;background:var(--ink-soft);}
+.burger span::before{top:-5px;} .burger span::after{top:5px;}
+
+.sheet{padding:52px 56px 96px;max-width:1108px;}
+.sheet.flush{padding-top:0;}
+
+/* ---------- Page head ---------- */
+.phead{display:flex;align-items:flex-start;gap:48px;margin-bottom:38px;}
+.phead-l{flex:0 0 auto;}
+.ptitle{font-size:42px;font-weight:300;line-height:1.1;letter-spacing:-.005em;margin:0;color:var(--ink);}
+.pintro{flex:1;font-size:15px;line-height:1.55;color:var(--ink);max-width:560px;padding-top:6px;}
+.pscore{margin-left:auto;text-align:right;flex-shrink:0;padding-left:24px;}
+.pscore .n{font-size:40px;font-weight:300;line-height:1;color:var(--sc,var(--ink-faint));}
+.pscore .t{font-size:10px;color:var(--ink-faint);margin-top:5px;}
+
+.phead.stacked{display:block;margin-bottom:34px;}
+.phead.stacked .row{display:flex;align-items:flex-start;gap:32px;}
+.phead.stacked .pscore{margin-left:auto;}
+.phead.stacked .pintro{max-width:900px;padding-top:0;margin-top:20px;}
+
+/* ---------- Bar ---------- */
+.bar{position:relative;margin-bottom:8px;padding-bottom:22px;}
+.bar-label{font-size:13.5px;margin-bottom:6px;color:var(--ink);line-height:1.3;}
+.bar-label.drill{display:flex;align-items:center;justify-content:flex-start;gap:4px;}
+.bar-label .chev{width:13px;height:13px;color:var(--c,var(--ink-faint));opacity:.85;flex-shrink:0;
+  transition:transform .12s;}
+.bar.grey .bar-label .chev{color:var(--ink-faint);opacity:.7;}
+
+.bar-link{
+  cursor:pointer;border-radius:10px;
+  /* negative top margin cancels the padding so linked and unlinked bars
+     keep identical vertical rhythm across the three columns */
+  margin:-9px -12px 4px;padding:9px 12px 4px;
+  transition:background .12s, box-shadow .12s;
+}
+.bar-link .bar{margin-bottom:0;}
+.bar-link:hover{background:color-mix(in srgb, var(--c, var(--ink-faint)) 20%, transparent);}
+.bar-link:hover .bar-track{border-color:var(--c, var(--ink-faint));}
+.bar-link:hover .bar-label{text-decoration:underline;text-underline-offset:3px;}
+.bar-link:hover .chev{transform:translateX(3px);}
+.bar-link:focus-visible{outline:none;background:color-mix(in srgb, var(--c, var(--ink-faint)) 20%, transparent);
+  box-shadow:0 0 0 2px var(--c, var(--ink-faint));}
+.bar-link.grey{--c:var(--ink-faint);}
+.bar-track{
+  position:relative;height:var(--bar-h);border:1px solid var(--c,var(--rule));
+  border-radius:999px;background:transparent;
+}
+.bar-fill{
+  position:absolute;top:-1px;left:-1px;height:var(--bar-h);border-radius:999px;
+  display:flex;align-items:center;justify-content:flex-end;
+  background:var(--fill-under);
+}
+.bar-fill.at{
+  background:linear-gradient(90deg, color-mix(in srgb, var(--c) 55%, #fff) 0%, var(--c) 100%);
+}
+:root[data-theme="dark"] .bar-fill.at{
+  background:linear-gradient(90deg, color-mix(in srgb, var(--c) 45%, #2A3038) 0%, var(--c) 100%);
+}
+.bar-fill span{font-size:14px;color:#fff;padding-right:13px;letter-spacing:.01em;}
+.bar-tick{
+  position:absolute;top:calc(100% + 1px);height:20px;line-height:20px;
+  border-left:1px solid var(--fill-under);padding-left:7px;
+  font-size:10px;color:var(--ink-faint);white-space:nowrap;
+}
+.bar.grey{--c:var(--c-other);}
+.bar.grey .bar-fill.at{background:linear-gradient(90deg,#C3C6C9 0%,#75797D 100%);}
+:root[data-theme="dark"] .bar.grey .bar-fill.at{background:linear-gradient(90deg,#4A5057 0%,#8A9199 100%);}
+
+/* ---------- Dashboard columns ---------- */
+.dash{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:52px;margin-bottom:64px;}
+.dash-col-head{margin-bottom:26px;}
+.dash-col-head .nm{font-size:29px;font-weight:300;color:var(--c);line-height:1.1;
+  display:inline-flex;align-items:center;gap:6px;cursor:pointer;}
+.dash-col-head .nm .chev{width:20px;height:20px;stroke-width:2.2;opacity:.75;transition:transform .12s;}
+.dash-col-head .nm:hover{text-decoration:underline;text-underline-offset:5px;}
+.dash-col-head .nm:hover .chev{transform:translateX(3px);}
+
+.subdash{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:52px;}
+.subdash h3{font-size:27px;font-weight:300;color:var(--ink-faint);margin:0 0 26px;}
+.subdash h3 .nm{display:inline-flex;align-items:center;gap:6px;cursor:pointer;color:inherit;}
+.subdash h3 .nm .chev{width:19px;height:19px;stroke-width:2.2;opacity:.7;transition:transform .12s;}
+.subdash h3 .nm:hover{text-decoration:underline;text-underline-offset:5px;}
+.subdash h3 .nm:hover .chev{transform:translateX(3px);}
+.conf-note{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:12px 4px;font-size:13.5px;line-height:1.6;color:var(--ink-soft);margin-top:26px;}
+
+/* ---------- Competency table (growth / strength) ---------- */
+.ctable{width:100%;border-collapse:collapse;}
+.ctable th{
+  text-align:left;font-size:13px;font-weight:500;color:var(--ink);
+  padding:0 34px 16px 0;vertical-align:bottom;line-height:1.4;
+}
+.ctable th:nth-child(1){width:340px;}
+.ctable th:nth-child(2),.ctable th:nth-child(3){width:26%;}
+.ctable td{padding:22px 0 26px;border-top:1px solid var(--rule);vertical-align:top;}
+.ctable tr:last-child td{border-bottom:1px solid var(--rule);}
+.ctable .col-bar{width:340px;padding-right:44px;}
+.ctable .col-txt{width:auto;padding-right:34px;font-size:14px;line-height:1.5;}
+.ctable .col-txt.off{color:var(--ink-faint);}
+.ctable .col-bar .bar-link{margin-bottom:0;}
+
+/* ---------- Checklist rows ---------- */
+.clist{border-bottom:1px solid var(--rule);}
+.crow{display:flex;gap:26px;align-items:flex-start;padding:22px 0;border-top:1px solid var(--rule);}
+.crow .nm{flex:0 0 236px;font-size:13.5px;line-height:1.4;padding-top:1px;}
+.crow .ds{flex:1;font-size:14px;line-height:1.5;color:var(--ink);}
+.crow.plain .nm{flex:0 0 auto;}
+
+.pip{width:22px;height:22px;border-radius:50%;flex-shrink:0;margin-top:-1px;
+  border:2px solid var(--c,var(--ink-faint));background:transparent;}
+.pip.on{background:var(--c,var(--ink-faint));}
+.pip.half{background:linear-gradient(90deg,var(--c) 50%, transparent 50%);}
+
+/* ---------- Beliefs / compat two-column ---------- */
+.ttable{width:100%;border-collapse:collapse;}
+.ttable th{text-align:left;font-size:13px;font-weight:500;padding:0 0 14px;color:var(--ink);}
+.ttable td{padding:16px 0;border-top:1px solid var(--rule);font-size:14px;line-height:1.5;vertical-align:top;}
+.ttable tr:last-child td{border-bottom:1px solid var(--rule);}
+.ttable .lim{width:46%;padding-right:20px;}
+.ttable .arrow{width:26px;color:var(--c-dna);font-size:15px;text-align:center;}
+.ttable .sup{padding-left:20px;}
+.ttable .lab{width:230px;color:var(--ink-soft);padding-right:24px;}
+
+/* ---------- Motivation ---------- */
+.mstyle-title{font-size:26px;font-weight:300;color:var(--c-will);margin:0 0 26px;}
+.mbars{max-width:330px;margin:0 auto 46px;}
+.mcols{display:grid;grid-template-columns:1fr 1px 1fr;gap:0 44px;}
+.mcols .rule{background:var(--rule);}
+.mcols h4{font-size:24px;font-weight:300;color:var(--c-will);margin:0 0 24px;}
+.mrow{display:flex;align-items:center;gap:22px;padding:13px 0;font-size:14px;}
+.tend{padding:13px 0;font-size:14px;line-height:1.5;}
+.tend b{font-weight:500;}
+
+/* ---------- Tiles ---------- */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:8px;}
+.tile{
+  border:1px solid var(--rule);border-radius:10px;padding:30px 28px;cursor:pointer;
+  display:flex;flex-direction:column;gap:6px;min-height:150px;justify-content:center;
+  transition:background .12s,border-color .12s;
+}
+.tile:hover{background:var(--hover);border-color:var(--ink-faint);}
+.tile .k{font-size:12.5px;color:var(--ink-faint);}
+.tile .v{font-size:25px;font-weight:300;line-height:1.15;}
+.section-h{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 20px;}
+
+/* ---------- Curated list pages ---------- */
+.fcard{border-top:1px solid var(--rule);padding:26px 0;display:grid;grid-template-columns:340px 1fr;gap:44px;align-items:start;}
+.fcard:last-child{border-bottom:1px solid var(--rule);}
+.fcard .why{font-size:14px;line-height:1.55;}
+.fcard .why .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:7px;}
+.fcard .gname{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--c);margin-bottom:9px;}
+
+.backlink{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--ink-soft);margin-bottom:26px;cursor:pointer;}
+.backlink:hover{color:var(--ink);}
+
+@media (max-width:1180px){
+  .dash,.subdash{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:900px){
+  #topLang{display:block;}
+  .main{margin-left:0;}
+  .sidebar{transform:translateX(-274px);}
+  .sidebar.closed{transform:translateX(0);}
+  .sheet{padding:32px 22px 80px;}
+  .dash,.subdash,.tiles{grid-template-columns:1fr;gap:38px;}
+  .phead{flex-direction:column;gap:18px;}
+  .pscore{margin-left:0;text-align:left;padding-left:0;}
+  .ctable .col-bar{width:auto;padding-right:0;display:block;}
+  .ctable td{display:block;border-top:none;padding:0 0 14px;}
+  .ctable tr{display:block;border-top:1px solid var(--rule);padding:20px 0 6px;}
+  .ctable thead{display:none;}
+  .ctable .col-txt::before{content:attr(data-lab);display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px;}
+  .crow{flex-wrap:wrap;}
+  .crow .nm{flex:0 0 calc(100% - 48px);}
+  .crow .ds{flex:0 0 100%;padding-left:48px;}
+  .mcols{grid-template-columns:1fr;}
+  .mcols .rule{display:none;}
+  .fcard{grid-template-columns:1fr;gap:18px;}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main" id="main">
+    <div class="topbar">
+      <button class="burger" id="burger" aria-label="Menu"><span></span></button>
+      <div class="crumb" id="crumb"></div>
+      <div class="topbar-spacer"></div>
+      <div id="topLang"></div>
+    </div>
+    <div id="view"></div>
+  </div>
+</div>
+<script>
+/* ============ ASSESSMENT DATA ============ */
+var CANDIDATE = {name:"Duarte Sánchez Vázquez", role:{en:"Business Development Manager",es:"Business Development Manager"}, company:"Hubexo"};
+
+var DEV = {
+  coachable:{score:75,target:75,
+    name:{en:"Coachable",es:"Coachable"},
+    desc:{en:"Measures how receptive this individual is to feedback, coaching, and changing behavior based on it.",
+          es:"Mide en qué medida esta persona es receptiva al feedback, al coaching y a cambiar su comportamiento en consecuencia."}},
+  figureItOut:{score:79,target:75,
+    name:{en:"Figure-It-Out Factor",es:"Factor de Resolución Autónoma"},
+    desc:{en:"Measures this individual's ability to solve problems and figure things out independently — a strong indicator of ramp-up speed in a new role.",
+          es:"Mide la capacidad de esta persona para resolver problemas y desenvolverse de forma independiente — un buen indicador de la rapidez con la que se adaptará a un nuevo puesto."}}
+};
+
+var UI = {
+  en:{
+    "nav.title":"Assessment","nav.home":"Home","nav.strengths":"Top Strengths","nav.focus":"Low-Hanging Fruit",
+    "nav.will":"Will to Sell","nav.dna":"Sales DNA","nav.tactical":"Tactical","nav.other":"Other Competencies",
+    "lang.label":"Language","lang.en":"English","lang.es":"Español",
+    "home.eyebrow":"Hubexo · Business Development Manager","home.title":"Sales Assessment",
+    "home.langCallout":"View this assessment in English or Spanish (Spain)",
+    "home.devLabel":"Development Scores","home.exploreLabel":"Explore the Assessment",
+    "tile.strengths.meta":"See what's working","tile.focus.meta":"See where to focus",
+    "tile.will.meta":"5 findings","tile.dna.meta":"6 findings","tile.tactical.meta":"10 findings","tile.other.meta":"7 findings",
+    "target":"Target","vsTarget":"vs. target","back":"Back","backHome":"Back to Home",
+    "status.strength":"Strength","status.growth":"Opportunity for Growth","status.near":"Near Target",
+    "growthLabel":"When this is an Opportunity for Growth, this individual might…",
+    "strengthLabel":"When this is a Strength, this individual might…",
+    "viewDetail":"View details","findingsIn":"Findings in",
+    "strengths.title":"Top Strengths","strengths.intro":"The highest-scoring findings relative to target across the full assessment.",
+    "focus.title":"Low-Hanging Fruit","focus.intro":"The findings furthest below target that matter most for this role, based on the Business Development Manager role description.",
+    "motivation.styleTitle":"Motivational Style","motivation.attributes":"Motivational Attributes","motivation.tendencies":"Motivational Tendencies",
+    "beliefs.title":"Self-Limiting Beliefs → Supportive Beliefs","beliefs.intro":"Below are the self-limiting beliefs this individual's responses indicated they hold, alongside the corresponding supportive belief they can develop with training and coaching.",
+    "beliefs.lim":"Self-Limiting Belief","beliefs.sup":"Supportive Belief",
+    "compat.title":"Compatibility Attributes","compat.intro":"How this individual's stated experience and preferences align with the requirements of this role."
+  },
+  es:{
+    "nav.title":"Evaluación","nav.home":"Inicio","nav.strengths":"Puntos Fuertes","nav.focus":"Prioridades de Mejora",
+    "nav.will":"Voluntad de Vender","nav.dna":"ADN de Ventas","nav.tactical":"Táctica","nav.other":"Otras Competencias",
+    "lang.label":"Idioma","lang.en":"English","lang.es":"Español",
+    "home.eyebrow":"Hubexo · Business Development Manager","home.title":"Evaluación de Ventas",
+    "home.langCallout":"Consulta esta evaluación en inglés o en español (España)",
+    "home.devLabel":"Puntuaciones de Desarrollo","home.exploreLabel":"Explorar la Evaluación",
+    "tile.strengths.meta":"Qué está funcionando","tile.focus.meta":"Dónde centrarse",
+    "tile.will.meta":"5 hallazgos","tile.dna.meta":"6 hallazgos","tile.tactical.meta":"10 hallazgos","tile.other.meta":"7 hallazgos",
+    "target":"Objetivo","vsTarget":"sobre el objetivo","back":"Volver","backHome":"Volver al inicio",
+    "status.strength":"Fortaleza","status.growth":"Oportunidad de Mejora","status.near":"Cerca del Objetivo",
+    "growthLabel":"Cuando esto es una oportunidad de mejora, esta persona podría…",
+    "strengthLabel":"Cuando esto es una fortaleza, esta persona podría…",
+    "viewDetail":"Ver detalle","findingsIn":"Hallazgos en",
+    "strengths.title":"Puntos Fuertes","strengths.intro":"Los hallazgos con mayor puntuación respecto a su objetivo en toda la evaluación.",
+    "focus.title":"Prioridades de Mejora","focus.intro":"Los hallazgos más alejados de su objetivo y más relevantes para este puesto, según la descripción del puesto de Business Development Manager.",
+    "motivation.styleTitle":"Estilo Motivacional","motivation.attributes":"Atributos Motivacionales","motivation.tendencies":"Tendencias Motivacionales",
+    "beliefs.title":"Creencias Limitantes → Creencias Favorables","beliefs.intro":"A continuación se muestran las creencias limitantes que, según sus respuestas, esta persona mantiene, junto con la creencia favorable correspondiente que puede desarrollar con formación y coaching.",
+    "beliefs.lim":"Creencia Limitante","beliefs.sup":"Creencia Favorable",
+    "compat.title":"Atributos de Compatibilidad","compat.intro":"Cómo se alinean la experiencia y las preferencias declaradas de esta persona con los requisitos de este puesto."
+  }
+};
+
+/* ---- WILL TO SELL ---- */
+var GROUP_WILL = {
+  key:"will", color:"will",
+  name:{en:"Will to Sell",es:"Voluntad de Vender"},
+  intro:{en:"The Will to Sell Competencies measure a salesperson's overall drive to achieve success in sales. Without strong Will to Sell, it is difficult for an individual to change their habits or learn new skills.",
+         es:"Las competencias de Voluntad de Vender miden el impulso general de un vendedor para alcanzar el éxito en ventas. Sin una Voluntad de Vender sólida, resulta difícil cambiar hábitos o aprender nuevas habilidades."},
+  findings:[
+    {id:"desire", name:{en:"Desire",es:"Deseo"}, score:84, target:60,
+      growth:{en:"tend to prioritize non-sales activities, lack urgency, or lack concern about sales results.",
+              es:"tienden a priorizar actividades no relacionadas con las ventas, carecen de urgencia o no les preocupan los resultados de ventas."},
+      strength:{en:"feel urgency to take action, prioritize sales results, or care deeply about achieving sales results.",
+                es:"sienten urgencia por actuar, priorizan los resultados de ventas o les importa profundamente alcanzarlos."},
+      drill:null},
+    {id:"commitment", name:{en:"Commitment",es:"Compromiso"}, score:21, target:60,
+      growth:{en:"only do what it takes to ethically succeed in their role if certain personal or professional conditions are met.",
+              es:"solo hacen lo necesario para tener éxito de forma ética en su puesto si se cumplen ciertas condiciones personales o profesionales."},
+      strength:{en:"do whatever it takes, ethically but without conditions, to be successful in their role.",
+                es:"hacen lo que haga falta, de forma ética y sin condiciones, para tener éxito en su puesto."},
+      drill:null},
+    {id:"outlook", name:{en:"Outlook",es:"Perspectiva"}, score:75, target:75,
+      growth:{en:"feel frustrated, demotivated, or distracted by their career prospects.",
+              es:"se sienten frustrados, desmotivados o distraídos por sus perspectivas profesionales."},
+      strength:{en:"feel positive, focused, and appreciative about their career prospects.",
+                es:"se sienten positivos, centrados y agradecidos respecto a sus perspectivas profesionales."},
+      drill:null},
+    {id:"responsibility", name:{en:"Responsibility",es:"Responsabilidad"}, score:0, target:50,
+      growth:{en:"rationalize poor sales results by pointing to the economy, the competition, or the company.",
+              es:"justifican los malos resultados de ventas culpando a la economía, la competencia o la empresa."},
+      strength:{en:"hold themselves accountable for any lack of sales results.",
+                es:"se responsabilizan de cualquier falta de resultados de ventas."},
+      drill:null},
+    {id:"motivation", name:{en:"Motivation",es:"Motivación"}, score:67, target:67,
+      growth:{en:"not have a meaningful dream or goal to fuel the work they do to achieve sales success.",
+              es:"no tienen un sueño o una meta significativa que impulse su trabajo para alcanzar el éxito en ventas."},
+      strength:{en:"have a compelling dream or goal to drive sales performance.",
+                es:"tienen un sueño o una meta convincente que impulsa su rendimiento en ventas."},
+      drill:{type:"motivation",
+        style:{extrinsic:29, intrinsic:57, altruistic:2, dominant:{en:"Intrinsic",es:"Intrínseco"}},
+        attributes:[
+          {state:"on", name:{en:"Enjoys Selling",es:"Disfruta vendiendo"}},
+          {state:"on", name:{en:"Has Personal Goals",es:"Tiene metas personales"}},
+          {state:"off", name:{en:"Has Written Personal Goals",es:"Tiene metas personales por escrito"}},
+          {state:"off", name:{en:"Has Written Personal Goals with Date",es:"Tiene metas por escrito con fecha"}},
+          {state:"on", name:{en:"Meaningful Goals",es:"Metas significativas"}},
+          {state:"off", name:{en:"Plan for Reaching Personal Goals",es:"Tiene un plan para alcanzar sus metas"}},
+          {state:"off", name:{en:"System to Track Progress",es:"Tiene un sistema para seguir su progreso"}},
+          {state:"on", name:{en:"Self-Starter",es:"Proactivo / autónomo"}}
+        ],
+        tendencies:[
+          {en:"Loving to win <b>more than</b> hating to lose",es:"Le gusta más ganar <b>de lo que</b> le disgusta perder"},
+          {en:"Self-rewarding performance <b>instead of</b> spending money first to create pressure to perform",es:"Se recompensa a sí mismo por el rendimiento, <b>en lugar de</b> gastar dinero primero para generarse presión"},
+          {en:"Self-pressure <b>instead of</b> being pressured",es:"Se presiona a sí mismo, <b>en lugar de</b> necesitar presión externa"},
+          {en:"Self-management <b>instead of</b> being closely managed",es:"Se autogestiona, <b>en lugar de</b> necesitar supervisión estrecha"},
+          {en:"Self-competition <b>over</b> competing against others",es:"Compite consigo mismo <b>más que</b> contra otros"},
+          {en:"Satisfaction <b>over</b> recognition",es:"Prioriza la satisfacción <b>sobre</b> el reconocimiento"}
+        ]
+      }}
+  ]
+};
+
+/* ---- SALES DNA ---- */
+var GROUP_DNA = {
+  key:"dna", color:"dna",
+  name:{en:"Sales DNA",es:"ADN de Ventas"},
+  intro:{en:"The Sales DNA Competencies measure a salesperson's beliefs and actions that support or limit success in sales. Salespeople are often unaware of how their biases can negatively impact their interactions with customers.",
+         es:"Las competencias de ADN de Ventas miden las creencias y acciones de un vendedor que favorecen o limitan el éxito en ventas. Los vendedores suelen no ser conscientes de cómo sus sesgos pueden afectar negativamente a sus interacciones con los clientes."},
+  findings:[
+    {id:"doesntNeedApproval", name:{en:"Doesn't Need Approval",es:"No Necesita Aprobación"}, score:87, target:86,
+      growth:{en:"avoid asking lots of questions or challenging the status quo, because they worry about upsetting their customer.",
+              es:"evitan hacer muchas preguntas o cuestionar el statu quo porque les preocupa disgustar al cliente."},
+      strength:{en:"be able to ask tough questions and challenge their customers to earn their respect.",
+                es:"son capaces de hacer preguntas difíciles y desafiar a sus clientes para ganarse su respeto."},
+      drill:null},
+    {id:"staysInMoment", name:{en:"Stays in the Moment",es:"Se Mantiene en el Momento"}, score:67, target:88,
+      growth:{en:"find it difficult to capture what their prospects are saying because their self-talk captures their attention.",
+              es:"les cuesta captar lo que dicen sus prospectos porque su diálogo interno acapara su atención."},
+      strength:{en:"be able to remain objective and actively listen to their prospects and customers.",
+                es:"son capaces de mantenerse objetivos y escuchar activamente a sus prospectos y clientes."},
+      drill:null},
+    {id:"supportiveBeliefs", name:{en:"Supportive Beliefs",es:"Creencias Favorables"}, score:76, target:86,
+      growth:{en:"put constraints on their actions because of negative sales-specific self-talk.",
+              es:"limitan sus propias acciones debido a un diálogo interno negativo relacionado con las ventas."},
+      strength:{en:"feel empowered to take positive action without being sabotaged by negative sales-specific self-talk.",
+                es:"se sienten capacitados para actuar de forma positiva sin verse saboteados por un diálogo interno negativo."},
+      drill:{type:"beliefs", pairs:[
+        {lim:{en:"A thousand dollars is a lot of money",es:"Mil dólares es mucho dinero"}, sup:{en:"I am comfortable discussing large amounts of money",es:"Me siento cómodo hablando de grandes cantidades de dinero"}},
+        {lim:{en:"I need to educate my prospects",es:"Necesito educar a mis prospectos"}, sup:{en:"I have the ability to limit how much my prospects conduct research",es:"Tengo la capacidad de limitar cuánto investigan mis prospectos"}},
+        {lim:{en:"Earning more money isn't that important to me",es:"Ganar más dinero no me importa demasiado"}, sup:{en:"I am motivated by earning more money",es:"Me motiva ganar más dinero"}},
+        {lim:{en:"I like to take my time considering major purchases",es:"Me gusta tomarme mi tiempo para las compras importantes"}, sup:{en:"I expect my prospects to make major purchases quickly",es:"Espero que mis prospectos hagan compras importantes con rapidez"}},
+        {lim:{en:"I have to work with the procurement department before I can call on end users or decision-makers",es:"Tengo que pasar por compras antes de poder contactar con los usuarios finales o los decisores"}, sup:{en:"I have the ability to call on decision makers",es:"Tengo la capacidad de contactar directamente con quien decide"}},
+        {lim:{en:"I'm uncomfortable asking prospects how much money they have",es:"Me incomoda preguntar a los prospectos cuánto dinero tienen"}, sup:{en:"I am comfortable having financial conversations with prospects",es:"Me siento cómodo teniendo conversaciones económicas con los prospectos"}},
+        {lim:{en:"It is appropriate to spend significant time with prospects that don't buy from me",es:"Es apropiado dedicar mucho tiempo a prospectos que no me compran"}, sup:{en:"I don't waste a significant amount of time with prospects that don't buy from me",es:"No pierdo mucho tiempo con prospectos que no me compran"}},
+        {lim:{en:"Any lack of results is due to the economy or marketplace",es:"La falta de resultados se debe a la economía o al mercado"}, sup:{en:"Any lack of results is due to my own efforts",es:"La falta de resultados se debe a mi propio esfuerzo"}},
+        {lim:{en:"Any lack of results is due to the policies of my company",es:"La falta de resultados se debe a las políticas de mi empresa"}, sup:{en:"Any lack of results is due to my own efforts",es:"La falta de resultados se debe a mi propio esfuerzo"}},
+        {lim:{en:"I don't need a strong relationship with my prospects in order to sell them",es:"No necesito una relación sólida con mis prospectos para venderles"}, sup:{en:"I am able to quickly develop strong rapport with prospects",es:"Soy capaz de generar rápidamente una buena relación con los prospectos"}},
+        {lim:{en:"It's not necessary to ask prospects about their finances",es:"No es necesario preguntar a los prospectos sobre sus finanzas"}, sup:{en:"Asking prospects about their budget is a normal part of my routine",es:"Preguntar por el presupuesto es una parte normal de mi rutina"}}
+      ]}},
+    {id:"supportiveBuyCycle", name:{en:"Supportive Buy Cycle",es:"Ciclo de Compra Favorable"}, score:71, target:70,
+      growth:{en:"side with their prospect's objections to price, desire to comparison shop, or indecision because it is similar to how they buy.",
+              es:"se ponen del lado de las objeciones de precio, el deseo de comparar precios o la indecisión del prospecto porque es similar a su propia forma de comprar."},
+      strength:{en:"be able to push back over price objections, competition, and indecision.",
+                es:"son capaces de rebatir las objeciones de precio, la competencia y la indecisión."},
+      drill:{type:"checklist", items:[
+        {state:"on", name:{en:"Does Not Think Over Purchases",es:"No Se Lo Piensa Mucho Antes de Comprar"}, desc:{en:"Individuals who tend to think over major purchases are likely to understand and allow their prospects or customers to behave similarly, which will delay closings.",es:"Quien suele darle vueltas a sus compras importantes tiende a permitir que sus prospectos hagan lo mismo, lo que retrasa los cierres."}},
+        {state:"off", name:{en:"Does Not Research",es:"No Investiga en Exceso"}, desc:{en:"Individuals who tend to conduct extensive research prior to making purchases in their personal life are likely to make presentations to prospects too early and too often.",es:"Quien investiga mucho antes de comprar en su vida personal tiende a presentar a sus prospectos demasiado pronto y con demasiada frecuencia."}},
+        {state:"on", name:{en:"Does Not Price Shop",es:"No Compara Precios"}, desc:{en:"Individuals who place more importance on finding the best price, rather than the greatest value, tend to have difficulty upholding margins, selling value, and competing against lower-priced competitors.",es:"Quien da más importancia al mejor precio que al mayor valor tiende a tener dificultades para mantener márgenes, vender valor y competir con precios más bajos."}},
+        {state:"on", name:{en:"Does Not Comparison Shop",es:"No Compara Opciones"}, desc:{en:"Individuals who tend to shop around, explore options, and make comparisons in their personal life are more likely to accept that behavior from customers, which can make them vulnerable to competitors.",es:"Quien compara opciones en su vida personal tiende a aceptar ese comportamiento en sus clientes, lo que le hace vulnerable ante la competencia."}},
+        {state:"off", name:{en:"High Threshold for Money",es:"Umbral Alto para el Dinero"}, desc:{en:"This finding reflects how this individual is likely to respond to the customer's objections to something costing a lot of money, based on how the individual tends to personally think about money.",es:"Este hallazgo refleja cómo tiende a responder ante las objeciones de precio elevado, según su propia relación personal con el dinero."}}
+      ]}},
+    {id:"comfortableMoney", name:{en:"Comfortable Discussing Money",es:"Comodidad al Hablar de Dinero"}, score:17, target:66,
+      growth:{en:"skip the conversation about purchase budget because they find it too uncomfortable.",
+              es:"evitan la conversación sobre el presupuesto de compra porque les resulta demasiado incómoda."},
+      strength:{en:"lean into discussions about budget and/or how to find funding that isn't readily available.",
+                es:"se implican en las conversaciones sobre presupuesto o cómo encontrar financiación no disponible de inmediato."},
+      drill:null},
+    {id:"handlesRejection", name:{en:"Handles Rejection",es:"Gestiona el Rechazo"}, score:94, target:50,
+      growth:{en:"feel hurt and hesitate for some period of time before reaching out to a prospect after being rejected.",
+              es:"se sienten heridos y dudan durante un tiempo antes de volver a contactar con un prospecto tras ser rechazados."},
+      strength:{en:"get back on another sales call immediately after being rejected without feeling hurt.",
+                es:"retoman otra llamada de ventas inmediatamente después de un rechazo, sin sentirse heridos."},
+      drill:null}
+  ]
+};
+
+/* ---- TACTICAL ---- */
+var GROUP_TACTICAL = {
+  key:"tactical", color:"tactical",
+  name:{en:"Tactical",es:"Táctica"},
+  intro:{en:"Tactical Competencies measure the selling capabilities necessary to successfully find and guide potential customers through the sales process.",
+         es:"Las competencias tácticas miden las capacidades de venta necesarias para encontrar y guiar con éxito a los clientes potenciales a través del proceso de venta."},
+  findings:[
+    {id:"hunting", name:{en:"Hunting",es:"Caza de Nuevos Clientes"}, score:92, target:67,
+      growth:{en:"prefer to wait for inbound leads before reaching out to prospects, and when there aren't enough, choose to not prospect.",
+              es:"prefieren esperar a los leads entrantes antes de contactar con prospectos y, cuando no hay suficientes, optan por no prospectar."},
+      strength:{en:"proactively and consistently look for new business by reaching out to targeted prospects.",
+                es:"buscan nuevos negocios de forma proactiva y constante, contactando con prospectos específicos."},
+      drill:{type:"checklist", items:[
+        {state:"on", name:{en:"Will Prospect",es:"Está Dispuesto a Prospectar"}, desc:{en:"The willingness to prospect for new business is the single most important driver that leads to maintaining pipeline.",es:"La disposición a prospectar nuevos negocios es el factor más importante para mantener el pipeline lleno."}},
+        {state:"on", name:{en:"Prospects Consistently",es:"Prospecta de Forma Constante"}, desc:{en:"Prospecting must be done regularly to keep the pipeline full.",es:"La prospección debe hacerse de forma regular para mantener el pipeline lleno."}},
+        {state:"on", name:{en:"Prospects via Phone and / or Walk-ins",es:"Prospecta por Teléfono o en Persona"}, desc:{en:"If the role requires it, individuals should be comfortable making \"cold calls\" (where the prospective customer doesn't know you).",es:"Si el puesto lo requiere, hay que sentirse cómodo haciendo \"llamadas en frío\" (cuando el cliente potencial no te conoce)."}},
+        {state:"on", name:{en:"Has No Need for Approval",es:"No Necesita Aprobación"}, desc:{en:"While hunting for new business, it is important for individuals to be able to stay objective about negative interactions with prospects.",es:"Al buscar nuevos negocios, es importante mantenerse objetivo ante interacciones negativas con los prospectos."}},
+        {state:"on", name:{en:"Schedules Meetings",es:"Agenda Reuniones"}, desc:{en:"Being able to meet with prospects gives an individual a great start to filling their pipeline.",es:"Poder reunirse con prospectos supone un gran punto de partida para llenar el pipeline."}},
+        {state:"on", name:{en:"Recovers from Rejection",es:"Se Recupera del Rechazo"}, desc:{en:"The ability to handle rejection allows an individual to swiftly move on from one opportunity to the next without needing time to recover or becoming emotionally drained.",es:"La capacidad de gestionar el rechazo permite pasar rápidamente de una oportunidad a otra sin necesitar tiempo para recuperarse ni desgastarse emocionalmente."}},
+        {state:"off", name:{en:"Maintains Full Pipeline",es:"Mantiene el Pipeline Lleno"}, desc:{en:"Individuals should understand the importance of maintaining a full pipeline when hunting for new opportunities.",es:"Es importante entender la importancia de mantener el pipeline lleno al buscar nuevas oportunidades."}},
+        {state:"on", name:{en:"Not a Perfectionist or it Does Not Prevent Prospecting",es:"El Perfeccionismo No le Frena para Prospectar"}, desc:{en:"Perfectionism should not delay opportunities.",es:"El perfeccionismo no debería retrasar las oportunidades."}},
+        {state:"on", name:{en:"Believes They Are Quickly Liked by Customers",es:"Cree que Cae Bien Rápidamente a los Clientes"}, desc:{en:"When customers tend to quickly like an individual, it can open the door to more engagement while hunting for opportunities.",es:"Cuando el cliente tiende a apreciar rápidamente a alguien, esto puede abrir la puerta a mayor compromiso durante la búsqueda de oportunidades."}},
+        {state:"on", name:{en:"Reaches Target Prospect",es:"Llega al Prospecto Objetivo"}, desc:{en:"Individuals should be able to get beyond gatekeepers and waste little time in the process, allowing them to discover more opportunities.",es:"Hay que ser capaz de superar a los filtros y perder poco tiempo en el proceso, lo que permite descubrir más oportunidades."}},
+        {state:"off", name:{en:"Gets Referrals from Customers / Network",es:"Consigue Referencias de Clientes o su Red"}, desc:{en:"When appropriate, individuals should work to regularly receive referrals and introductions from existing customers.",es:"Cuando proceda, conviene trabajar para recibir referencias y presentaciones de clientes existentes de forma regular."}},
+        {state:"on", name:{en:"Uses Social Selling Tools",es:"Usa Herramientas de Venta Social"}, desc:{en:"Having strength in the Social Selling Competency gives an individual another channel they can harness to find new opportunities.",es:"Tener fortaleza en la venta social ofrece otro canal para encontrar nuevas oportunidades."}},
+        {state:"on", name:{en:"Attends Networking Events",es:"Asiste a Eventos de Networking"}, desc:{en:"Networking events can often be used to discover additional opportunities.",es:"Los eventos de networking suelen servir para descubrir oportunidades adicionales."}}
+      ]}},
+    {id:"reachingDM", name:{en:"Reaching Decision-Makers",es:"Llegar a Quien Decide"}, score:37, target:67,
+      growth:{en:"not push to reach a decision maker, as they are more comfortable continuing the conversation with their existing contact.",
+              es:"no insisten en llegar hasta quien toma la decisión, ya que se sienten más cómodos continuando la conversación con su contacto habitual."},
+      strength:{en:"find a way to reach the person responsible for deciding to purchase the products or services offered, even at the risk of seeming \"pushy\".",
+                es:"encuentran la forma de llegar hasta la persona responsable de decidir la compra, aunque corran el riesgo de parecer \"insistentes\"."},
+      drill:{type:"checklist", items:[
+        {state:"off", name:{en:"Calling on Actual Decision Maker",es:"Contacta con Quien Decide de Verdad"}, desc:{en:"The tendency to speak with the final decision maker allows individuals to uncover the real problems, discover the actual budget, learn what it will take to win the business, and shorten the sales cycle.",es:"Hablar con quien toma la decisión final permite descubrir los problemas reales, el presupuesto real, lo necesario para ganar el negocio y acortar el ciclo de venta."}},
+        {state:"on", name:{en:"Believes Speaking with Decision Makers Is Required",es:"Cree que es Necesario Hablar con Quien Decide"}, desc:{en:"Individuals who understand the importance of having a conversation with the decision-maker have an advantage over salespeople who do not.",es:"Entender la importancia de hablar con quien decide da ventaja frente a quienes no lo hacen."}},
+        {state:"on", name:{en:"Reaching Decision Maker Is Milestone in Sales Process",es:"Llegar a Quien Decide es un Hito en su Proceso"}, desc:{en:"Reaching the decision maker should be a milestone in an effective sale process.",es:"Llegar hasta quien decide debería ser un hito en un proceso de venta eficaz."}},
+        {state:"on", name:{en:"Does Not Need to be Liked",es:"No Necesita Caer Bien"}, desc:{en:"Having strength in the Doesn't Need Approval Competency helps individuals push prospects to put them in touch with the actual decision maker.",es:"Tener fortaleza en \"No necesita aprobación\" ayuda a presionar al prospecto para que le ponga en contacto con quien decide."}},
+        {state:"off", name:{en:"Doesn't Begin Sales Process with Procurement",es:"No Empieza el Proceso por Compras"}, desc:{en:"Individuals should not feel compelled to call on purchasing agents, beginning their sales process instead with people who have problems that they can solve.",es:"No hay que sentirse obligado a dirigirse primero al departamento de compras; el proceso debería empezar con quienes tienen problemas que se pueden resolver."}},
+        {state:"off", name:{en:"Uses Selling Skills to Reach Decision Maker",es:"Usa Habilidades de Venta para Llegar a Quien Decide"}, desc:{en:"Individuals who have strategies and tactics to help them reach decision makers are better able to uncover compelling reasons those customers would buy from them.",es:"Contar con estrategias y tácticas para llegar hasta quien decide ayuda a descubrir mejor los motivos de compra del cliente."}}
+      ]}},
+    {id:"relBuilding", name:{en:"Relationship Building",es:"Construcción de Relaciones"}, score:17, target:50,
+      growth:{en:"limit themselves to basic rapport and not establish a bond that helps them get or grow business.",
+              es:"se limitan a una relación básica y no consiguen establecer un vínculo que les ayude a conseguir o hacer crecer el negocio."},
+      strength:{en:"develop a strong bond with a customer to the point that the customer refers them business or follows them to new companies.",
+                es:"desarrollan un vínculo tan fuerte con el cliente que este les recomienda negocio o les sigue a una nueva empresa."},
+      drill:{type:"checklist", items:[
+        {state:"on", name:{en:"Quickly Develops Rapport",es:"Genera Rapport Rápidamente"}, desc:{en:"The ability to quickly develop rapport during the first conversation helps prospects feel more comfortable.",es:"Generar rapport rápidamente en la primera conversación ayuda a que el prospecto se sienta más cómodo."}},
+        {state:"off", name:{en:"Relationship Is Key Factor in Winning Business",es:"La Relación es Clave para Ganar Negocio"}, desc:{en:"Individuals who sell in an industry where relationships are the key factor in getting, maintaining, and growing business tend to place extra importance on building relationships.",es:"Quienes venden en sectores donde la relación es clave para conseguir, mantener y hacer crecer el negocio suelen dar más importancia a construir relaciones."}},
+        {state:"off", name:{en:"Relationships Generate New Business",es:"Las Relaciones Generan Nuevo Negocio"}, desc:{en:"Individuals should be able to build the kind of relationships that generate referrals and introductions that convert to business.",es:"Hay que ser capaz de construir relaciones que generen referencias y presentaciones que se conviertan en negocio."}},
+        {state:"off", name:{en:"Develops Strong Relationships over Time",es:"Desarrolla Relaciones Sólidas con el Tiempo"}, desc:{en:"Individuals should be able to develop strong rapport, and also have long-term ongoing relationships with customers.",es:"Hay que ser capaz de generar buen rapport y mantener relaciones sólidas y duraderas con los clientes."}},
+        {state:"off", name:{en:"Customers Follow to New Companies",es:"Los Clientes le Siguen a Nuevas Empresas"}, desc:{en:"Past customer relationships strong enough that the customer has followed you to a new job demonstrates the ability to build strong relationships.",es:"Que un cliente le haya seguido a una nueva empresa demuestra relaciones anteriores lo bastante fuertes."}},
+        {state:"off", name:{en:"Believes That Making Friends Is Single Greatest Asset",es:"Cree que Hacer Amigos es su Mayor Activo"}, desc:{en:"Individuals who view making friends with prospects and customers as the single most important thing they do may find it easier to build relationships.",es:"Quienes consideran que hacer amigos con prospectos y clientes es lo más importante que hacen pueden encontrar más fácil construir relaciones."}},
+        {state:"off", name:{en:"Extroversion Supports Relationship Building",es:"La Extroversión Favorece las Relaciones"}, desc:{en:"The tendency not to self-identify as an extrovert could (but doesn't necessarily) mean that an individual doesn't enjoy building relationships.",es:"No identificarse como extrovertido podría (aunque no necesariamente) indicar que no disfruta construyendo relaciones."}}
+      ]}}
+  ]
+};
+GROUP_TACTICAL.findings.push(
+    {id:"consultative", name:{en:"Consultative Selling",es:"Venta Consultiva"}, score:30, target:67,
+      growth:{en:"present earlier in the sales process than is prudent, before learning about the prospect's problems, consequences, and reasons for buying from them.",
+              es:"presentan antes de lo prudente en el proceso de venta, sin haber conocido los problemas, las consecuencias y los motivos de compra del prospecto."},
+      strength:{en:"uncover compelling reasons for prospects and customers to buy from them by using active listening skills to ask good, tough, and timely questions.",
+                es:"descubren razones convincentes para que el prospecto compre, usando la escucha activa y preguntas buenas, difíciles y oportunas."},
+      drill:{type:"checklist", items:[
+        {state:"off", name:{en:"Able to Stay in the Moment",es:"Se Mantiene en el Momento"}, desc:{en:"Staying in the moment allows an individual to respond appropriately and maintain control of the conversation, instead of worrying or preparing a rebuttal.",es:"Mantenerse en el momento permite responder de forma adecuada y mantener el control de la conversación, en lugar de preocuparse o preparar una réplica."}},
+        {state:"on", name:{en:"Uncovers Reasons to Buy",es:"Descubre Motivos de Compra"}, desc:{en:"An individual should listen to their prospects and learn why they would make a purchase.",es:"Hay que escuchar al prospecto y entender por qué compraría."}},
+        {state:"off", name:{en:"Reasons to Buy Are Compelling",es:"Los Motivos de Compra Son Convincentes"}, desc:{en:"Uncovering compelling reasons why a prospect would buy can accelerate a sales cycle by encouraging customers to act quickly.",es:"Descubrir motivos de compra convincentes puede acelerar el ciclo de venta animando al cliente a actuar con rapidez."}},
+        {state:"off", name:{en:"Able to Listen/Ask with Ease",es:"Escucha y Pregunta con Naturalidad"}, desc:{en:"Individuals should have the ability to listen to customers and avoid dominating the conversation.",es:"Hay que ser capaz de escuchar al cliente y evitar dominar la conversación."}},
+        {state:"off", name:{en:"Asks Enough Questions",es:"Hace Suficientes Preguntas"}, desc:{en:"Individuals who ask lots of questions give prospects an opportunity to share their concerns, opinions, and budget.",es:"Quien hace muchas preguntas da al prospecto la oportunidad de compartir sus preocupaciones, opiniones y presupuesto."}},
+        {state:"off", name:{en:"Asks Great Questions",es:"Hace Muy Buenas Preguntas"}, desc:{en:"Asking great questions helps uncover important information, differentiates individuals from the competition, and shortens the sales process.",es:"Hacer buenas preguntas ayuda a descubrir información importante, diferencia de la competencia y acorta el proceso de venta."}},
+        {state:"off", name:{en:"Gets Prospects Past \"Nice to Have\"",es:"Va Más Allá de lo \"Deseable\""}, desc:{en:"Individuals should have the ability to get prospects to view what they are selling as something the prospect MUST HAVE, as opposed to something that is nice to have.",es:"Hay que ser capaz de que el prospecto vea lo que se vende como algo IMPRESCINDIBLE, no solo deseable."}},
+        {state:"off", name:{en:"Will Build Trust",es:"Genera Confianza"}, desc:{en:"Building Trust supports an individual's ability to sell consultatively, since prospects tend to share more with someone they trust.",es:"Generar confianza favorece la venta consultiva, ya que el prospecto comparte más con alguien de confianza."}},
+        {state:"on", name:{en:"Able to Ask Tough Questions",es:"Sabe Hacer Preguntas Difíciles"}, desc:{en:"Individuals who ask tough questions are able to challenge customers, ask appropriately provocative questions, and gain deep insight into their customer's problems.",es:"Quien hace preguntas difíciles puede desafiar al cliente, plantear preguntas provocadoras adecuadas y comprender a fondo sus problemas."}},
+        {state:"on", name:{en:"Takes Nothing for Granted",es:"No Da Nada por Sentado"}, desc:{en:"Avoiding making assumptions helps individuals ask better questions and discover more about their prospect's needs.",es:"Evitar dar cosas por sentadas ayuda a hacer mejores preguntas y descubrir más sobre las necesidades del prospecto."}},
+        {state:"on", name:{en:"Manages Appropriate Amount of Patience",es:"Gestiona Bien la Paciencia"}, desc:{en:"Individuals who exhibit an appropriate amount of patience walk the line between not accepting delays while also not coming across as pushy.",es:"Mostrar la paciencia adecuada implica no aceptar retrasos sin parecer insistente."}},
+        {state:"on", name:{en:"Understands How Prospects Will Buy",es:"Entiende Cómo Comprará el Prospecto"}, desc:{en:"It is important to discover who will make the decision to buy, and also the process they'll use to decide whether to buy.",es:"Es importante descubrir quién tomará la decisión de compra y qué proceso seguirá para decidir."}},
+        {state:"off", name:{en:"Develops Strong Relationships",es:"Desarrolla Relaciones Sólidas"}, desc:{en:"Individuals who are strong at developing relationships are better able to sell consultatively.",es:"Quien es fuerte construyendo relaciones vende mejor de forma consultiva."}},
+        {state:"off", name:{en:"Presenting at Appropriate Times",es:"Presenta en el Momento Adecuado"}, desc:{en:"Individuals with good intuition for when to present and when to have a two-way conversation with customers avoid placing too much importance on educating prospects.",es:"Tener buena intuición sobre cuándo presentar y cuándo mantener una conversación bidireccional evita dar demasiada importancia a educar al prospecto."}},
+        {state:"on", name:{en:"Healthy Skepticism",es:"Escepticismo Saludable"}, desc:{en:"Maintaining a healthy skepticism and not being overly trusting of prospects helps salespeople get more accurate answers to tough questions.",es:"Mantener un escepticismo saludable y no confiar en exceso ayuda a obtener respuestas más precisas a preguntas difíciles."}}
+      ]}},
+    {id:"sellingValue", name:{en:"Selling Value",es:"Venta de Valor"}, score:40, target:67,
+      growth:{en:"talk about their service's value without personally being part of the value, leading to a buying decision based on price.",
+              es:"hablan del valor de su servicio sin formar parte personalmente de ese valor, lo que lleva a una decisión de compra basada en el precio."},
+      strength:{en:"position themself as a trusted advisor and provide the customer with crucial solutions unavailable elsewhere.",
+                es:"se posicionan como asesores de confianza y ofrecen al cliente soluciones clave que no encontraría en ningún otro sitio."},
+      drill:{type:"checklist", items:[
+        {state:"on", name:{en:"Focused on Value over Price",es:"Centrado en el Valor, No en el Precio"}, desc:{en:"The tendency not to shop around for the best price helps individuals avoid being sympathetic to prospects who want to compare a price with competitors. In doing so, individuals are able to better keep the conversation on value as opposed to price.",es:"No buscar el mejor precio ayuda a no ser comprensivo con prospectos que quieren comparar precios con la competencia, manteniendo así la conversación centrada en el valor."}},
+        {state:"off", name:{en:"Will Discuss Finances",es:"Habla de Finanzas con Naturalidad"}, desc:{en:"Individuals who are comfortable discussing finances are able to have in-depth conversations to determine exactly how much their prospect will spend and navigate challenging budget issues.",es:"Sentirse cómodo hablando de finanzas permite mantener conversaciones en profundidad sobre cuánto gastará el prospecto y gestionar temas de presupuesto complicados."}},
+        {state:"off", name:{en:"High Threshold for Money",es:"Umbral Alto para el Dinero"}, desc:{en:"This Buy Cycle attribute helps an individual to challenge prospects and customers when they raise concerns about price.",es:"Este rasgo del ciclo de compra ayuda a rebatir al prospecto o cliente cuando plantea dudas sobre el precio."}},
+        {state:"on", name:{en:"Attempts to Sell Value",es:"Intenta Vender por Valor"}, desc:{en:"The tendency to hold firm when a prospect asks for a lower price helps individuals keep the focus of conversations on value as opposed to price.",es:"Mantenerse firme cuando el prospecto pide un precio más bajo ayuda a centrar la conversación en el valor y no en el precio."}},
+        {state:"off", name:{en:"Sales Process Supports Selling Value",es:"Su Proceso de Venta Favorece el Valor"}, desc:{en:"An effective sales process should consist of the important milestones that support identifying value opportunities for prospects.",es:"Un proceso de venta eficaz debe incluir los hitos importantes que ayudan a identificar oportunidades de valor para el prospecto."}},
+        {state:"off", name:{en:"Learns Why Prospects Will Buy",es:"Descubre Por Qué Comprará el Prospecto"}, desc:{en:"Individuals should listen to customers to determine why they will make a purchase, which helps that individual keep the conversation on those reasons instead of price.",es:"Hay que escuchar al cliente para saber por qué comprará, lo que ayuda a centrar la conversación en esos motivos y no en el precio."}},
+        {state:"on", name:{en:"Doesn't Need Approval",es:"No Necesita Aprobación"}, desc:{en:"Strength in the Doesn't Need Approval Competency helps individuals push back when a prospect is focused more on price than value.",es:"Tener fortaleza en \"No necesita aprobación\" ayuda a rebatir cuando el prospecto se centra más en el precio que en el valor."}},
+        {state:"off", name:{en:"Asks Great Questions",es:"Hace Muy Buenas Preguntas"}, desc:{en:"Asking great questions allows individuals to uncover insights that help them find ways to sell on value over price.",es:"Hacer buenas preguntas permite descubrir información que ayuda a vender por valor y no por precio."}},
+        {state:"off", name:{en:"Asks Enough Questions",es:"Hace Suficientes Preguntas"}, desc:{en:"The tendency to ask lots of questions will help individuals uncover opportunities to help prospects focus on the value of their solution as opposed to the price.",es:"Hacer muchas preguntas ayuda a descubrir oportunidades para que el prospecto se centre en el valor de la solución y no en el precio."}},
+        {state:"on", name:{en:"Avoids Making Assumptions",es:"Evita Dar Cosas por Sentadas"}, desc:{en:"Individuals who do not tend to make assumptions are able to dig deeper into a prospect's needs and discover opportunities to articulate the value of their solution.",es:"No dar cosas por sentadas permite profundizar en las necesidades del prospecto y descubrir formas de articular el valor de la solución."}},
+        {state:"on", name:{en:"Quickly Develops Rapport",es:"Genera Rapport Rápidamente"}, desc:{en:"Being able to quickly develop rapport with prospects helps individuals steer conversations with prospects away from price and keep the focus on value.",es:"Generar rapport rápidamente ayuda a alejar la conversación del precio y mantenerla centrada en el valor."}},
+        {state:"off", name:{en:"Not Compelled to Quote",es:"No se Precipita con los Presupuestos"}, desc:{en:"Individuals who are careful to only create quotes or proposals when they know they are going to win the business are able to avoid inadvertently shifting the focus to price when it should be on value.",es:"Ser cuidadoso y solo preparar presupuestos o propuestas cuando se sabe que se va a ganar el negocio evita desviar el foco hacia el precio cuando debería estar en el valor."}}
+      ]}},
+    {id:"qualifying", name:{en:"Qualifying",es:"Cualificación"}, score:22, target:67,
+      growth:{en:"tend to prematurely prepare a quote, proposal, or presentation.",
+              es:"tienden a preparar un presupuesto, una propuesta o una presentación de forma prematura."},
+      strength:{en:"ask about everything that could possibly derail an opportunity before determining that it is fully qualified.",
+                es:"preguntan por todo lo que podría hacer descarrilar una oportunidad antes de darla por totalmente cualificada."},
+      drill:{type:"checklist", items:[
+        {state:"off", name:{en:"Meets with Decision Maker",es:"Se Reúne con Quien Decide"}, desc:{en:"Strength in the Reaching Decision-Makers Competency helps individuals get the information they need to fully qualify opportunities.",es:"Tener fortaleza en \"Llegar a quien decide\" ayuda a obtener la información necesaria para cualificar bien las oportunidades."}},
+        {state:"off", name:{en:"Uncovers Actual Budget",es:"Descubre el Presupuesto Real"}, desc:{en:"Individuals who are successful at getting prospects to share how much money they can spend are better able to properly qualify opportunities.",es:"Conseguir que el prospecto comparta cuánto puede gastar ayuda a cualificar mejor las oportunidades."}},
+        {state:"off", name:{en:"Will Discuss Finances",es:"Habla de Finanzas con Naturalidad"}, desc:{en:"Comfort talking about money with prospects is critical to determining whether an opportunity is qualified to move forward in the sales process.",es:"Sentirse cómodo hablando de dinero es clave para determinar si una oportunidad está cualificada para avanzar."}},
+        {state:"on", name:{en:"Knows Decision-Making Process",es:"Conoce el Proceso de Decisión"}, desc:{en:"Individuals should be able to successfully get prospects to disclose the process they will use to decide whether to buy from them.",es:"Hay que conseguir que el prospecto revele el proceso que usará para decidir si compra."}},
+        {state:"off", name:{en:"Can Influence the Decision-Making Process",es:"Puede Influir en el Proceso de Decisión"}, desc:{en:"Individuals should be able to effect changes to a prospect's decision-making process when it is overly complex, unfavorable, and impeding an opportunity.",es:"Hay que poder influir en el proceso de decisión del prospecto cuando es demasiado complejo, desfavorable y frena la oportunidad."}},
+        {state:"off", name:{en:"Handles High-Ticket Pricing OK",es:"Gestiona Bien los Precios Elevados"}, desc:{en:"Individuals should be comfortable handling customers' objections to a solution costing a lot of money.",es:"Hay que sentirse cómodo gestionando objeciones sobre soluciones de precio elevado."}},
+        {state:"on", name:{en:"Need to Be Liked Doesn't Get in the Way",es:"Necesitar Caer Bien No le Frena"}, desc:{en:"Strength in the Doesn't Need Approval Competency helps individuals hold their ground on fully qualifying opportunities before moving them forward in the sales process.",es:"Tener fortaleza en \"No necesita aprobación\" ayuda a mantenerse firme cualificando bien antes de avanzar."}},
+        {state:"off", name:{en:"Able to Stay in the Moment",es:"Se Mantiene en el Momento"}, desc:{en:"Strength in the Stays in the Moment Competency helps individuals avoid letting their emotional connection to an opportunity cloud their ability to properly qualify it.",es:"Tener fortaleza en \"Mantenerse en el momento\" evita que la conexión emocional con una oportunidad nuble su cualificación adecuada."}},
+        {state:"off", name:{en:"Self-Limiting Beliefs Won't be an Obstacle",es:"Sus Creencias No Serán un Obstáculo"}, desc:{en:"Supportive Beliefs help ensure that individuals are objectively qualifying opportunities.",es:"Tener creencias favorables ayuda a cualificar las oportunidades de forma objetiva."}},
+        {state:"off", name:{en:"Knows Why They Would Buy",es:"Sabe Por Qué Comprarían"}, desc:{en:"Individuals should be able to uncover the truly compelling reasons why a prospect would buy from them.",es:"Hay que descubrir los motivos realmente convincentes por los que el prospecto compraría."}},
+        {state:"on", name:{en:"Asks about Everything",es:"Pregunta por Todo"}, desc:{en:"The ability to avoid making assumptions and rely on factual information helps individuals objectively qualify opportunities.",es:"Evitar dar cosas por sentadas y basarse en información objetiva ayuda a cualificar de forma objetiva."}},
+        {state:"on", name:{en:"Not Vulnerable to Competition",es:"No es Vulnerable a la Competencia"}, desc:{en:"When individuals don't tend to comparison shop in their personal life, they are more likely to push back when a prospect wants to comparison shop.",es:"Quien no suele comparar precios en su vida personal tiende a rebatir mejor cuando el prospecto quiere comparar."}}
+      ]}}
+);
+GROUP_TACTICAL.findings.push(
+    {id:"presentation", name:{en:"Presentation Approach",es:"Enfoque de Presentación"}, score:27, target:67,
+      growth:{en:"be more focused on presenting the product or solution than considering the timing, specific topics, or who should be in attendance.",
+              es:"se centran más en presentar el producto o la solución que en considerar el momento, los temas concretos o quién debería estar presente."},
+      strength:{en:"be very thoughtful about what to present, when to present, and to whom it should be presented.",
+                es:"son muy cuidadosos sobre qué presentar, cuándo hacerlo y a quién debe dirigirse la presentación."},
+      drill:{type:"checklist", items:[
+        {state:"off", name:{en:"Emphasizes Listening over Talking",es:"Prioriza Escuchar Antes que Hablar"}, desc:{en:"The ability to listen more than talk serves individuals well during presentations, when prospects may reveal additional details about the opportunity.",es:"Escuchar más que hablar resulta útil durante las presentaciones, cuando el prospecto puede revelar detalles adicionales."}},
+        {state:"off", name:{en:"Able to Minimize Talking about Company Products or Solutions",es:"Limita Hablar de Producto o Empresa"}, desc:{en:"Individuals should spend more time asking questions than talking about their company and what they are selling. This keeps presentations interesting and tailored to the prospect.",es:"Conviene dedicar más tiempo a preguntar que a hablar de la empresa y el producto, manteniendo la presentación interesante y adaptada al prospecto."}},
+        {state:"on", name:{en:"Not Compelled to Present",es:"No se Siente Obligado a Presentar"}, desc:{en:"Individuals should have a practical view on the importance of presenting, allowing them to avoid presenting when it is not required.",es:"Conviene tener una visión práctica de la presentación, evitándola cuando no es necesaria."}},
+        {state:"off", name:{en:"Not Overly Reliant on Educating and Presenting",es:"No Depende en Exceso de Educar y Presentar"}, desc:{en:"Presenting should be balanced with other sales skills such as asking challenging questions and qualifying.",es:"La presentación debe equilibrarse con otras habilidades como preguntar y cualificar."}},
+        {state:"on", name:{en:"Does Not Believe Presenting Equates to Controlling the Sales Process",es:"No Cree que Presentar Sea Controlar el Proceso"}, desc:{en:"Individuals shouldn't need to be presenting to feel in control of the selling process.",es:"No hace falta estar presentando para sentir que se controla el proceso de venta."}},
+        {state:"off", name:{en:"Does Not Believe Making A Proposal is the Most Important Part of the Sales Process",es:"No Cree que la Propuesta Sea lo Más Importante"}, desc:{en:"Individuals should feel that making a proposal is less important than other aspects of the sales process such as selling consultatively and qualifying the opportunity.",es:"Elaborar una propuesta debería considerarse menos importante que otros aspectos como la venta consultiva y la cualificación."}},
+        {state:"off", name:{en:"Not Compelled to Propose or Quote",es:"No se Precipita con Propuestas o Presupuestos"}, desc:{en:"Individuals should have a healthy outlook on when it is acceptable to create proposals or quotes and present at an appropriate time in the sales process.",es:"Conviene tener una visión sana sobre cuándo es aceptable elaborar propuestas o presupuestos."}},
+        {state:"off", name:{en:"Asks Enough Questions",es:"Hace Suficientes Preguntas"}, desc:{en:"Individuals should understand the importance of not dominating the conversation during sales calls. While presenting solutions, this same attribute can help individuals find opportunities to learn more about their customer's needs.",es:"Es importante no dominar la conversación en las llamadas de venta; esto ayuda a descubrir más sobre las necesidades del cliente incluso al presentar."}},
+        {state:"on", name:{en:"Takes Nothing for Granted",es:"No Da Nada por Sentado"}, desc:{en:"Individuals should rely on factual information as opposed to assumptions or hunches, which helps individuals tailor their presentations to each prospect's needs.",es:"Conviene basarse en información objetiva y no en suposiciones, adaptando la presentación a las necesidades de cada prospecto."}}
+      ]}},
+    {id:"closing", name:{en:"Closing",es:"Cierre"}, score:80, target:67,
+      growth:{en:"tend to accept stalling, and work to close the business through their follow-up efforts.",
+              es:"tienden a aceptar las largas y tratan de cerrar el negocio a base de seguimiento."},
+      strength:{en:"get a verbal agreement in advance of the expected closing call or meeting, and be certain of getting a decision.",
+                es:"obtienen un acuerdo verbal antes de la llamada o reunión de cierre prevista, asegurándose de conseguir una decisión."},
+      drill:{type:"checklist", items:[
+        {state:"off", name:{en:"Gets Prospect to Agree to Make a Decision",es:"Consigue que el Prospecto Acuerde Decidir"}, desc:{en:"When an individual is able to get their prospects to agree when decision-making will take place, it allows them to shorten their sales cycle and ensures presentations and proposals are accompanied by a decision.",es:"Conseguir que el prospecto acuerde cuándo se tomará la decisión acorta el ciclo de venta y asegura que las propuestas vayan acompañadas de una decisión."}},
+        {state:"on", name:{en:"Not Likely to Take \"Think it Overs\"",es:"No Acepta Fácilmente las Largas"}, desc:{en:"Individuals who don't tend to mull over purchases are able to push back when prospects ask for time to think over their purchase.",es:"Quien no suele darle vueltas a sus propias compras puede rebatir mejor cuando el prospecto pide tiempo para pensarlo."}},
+        {state:"on", name:{en:"Unlikely to be Derailed by Put-Offs",es:"No se Deja Descarrilar por Excusas"}, desc:{en:"Individuals who are able to successfully avoid prospect's stalls can focus instead on tangible next steps and decisions.",es:"Evitar con éxito las largas del prospecto permite centrarse en pasos concretos y decisiones."}},
+        {state:"on", name:{en:"Manages Appropriate Amount of Patience",es:"Gestiona Bien la Paciencia"}, desc:{en:"An appropriate amount of patience at closing time means not being too impatient to appear pushy and not being too patient to accept delays.",es:"La paciencia adecuada en el cierre implica no parecer insistente ni aceptar demasiados retrasos."}},
+        {state:"on", name:{en:"Closing Urgency",es:"Urgencia de Cierre"}, desc:{en:"Individuals should appropriately push back when their prospect asks them to follow up later about a final purchasing decision.",es:"Conviene rebatir adecuadamente cuando el prospecto pide posponer la decisión final."}},
+        {state:"on", name:{en:"Sales Assertiveness",es:"Asertividad en la Venta"}, desc:{en:"Individuals should exhibit an appropriate amount of assertiveness with customers, being neither too timid nor too overconfident.",es:"Conviene mostrar la asertividad adecuada con el cliente, sin ser ni tímido ni excesivamente confiado."}},
+        {state:"off", name:{en:"Won't Make Inappropriate Quotes",es:"No Genera Presupuestos Prematuros"}, desc:{en:"A good perspective on quotes and proposals means only generating them when the business is likely to be won.",es:"Una buena perspectiva sobre presupuestos y propuestas implica generarlos solo cuando es probable ganar el negocio."}},
+        {state:"on", name:{en:"Problem Solver",es:"Resuelve Problemas"}, desc:{en:"Successful negotiation involves thinking of solutions, as opposed to worrying about problems or getting consumed by them.",es:"La negociación exitosa implica pensar en soluciones en lugar de preocuparse por los problemas."}},
+        {state:"off", name:{en:"Reaching Decision-Makers",es:"Llega a Quien Decide"}, desc:{en:"An individual who is strong in the Reaching Decision Makers Competency will generally talk to the right people to be able to close opportunities.",es:"Ser fuerte en \"Llegar a quien decide\" implica hablar con las personas adecuadas para poder cerrar oportunidades."}},
+        {state:"on", name:{en:"Doesn't Need Approval",es:"No Necesita Aprobación"}, desc:{en:"Strength in the Doesn't Need Approval Competency helps individuals push deals over the finish line.",es:"Tener fortaleza en \"No necesita aprobación\" ayuda a llevar los acuerdos hasta el final."}},
+        {state:"off", name:{en:"Stays in the Moment",es:"Se Mantiene en el Momento"}, desc:{en:"Strength in the Stays in the Moment Competency helps individuals stay objective at closing and avoid emotion clouding their judgement.",es:"Tener fortaleza en \"Mantenerse en el momento\" ayuda a ser objetivo en el cierre, sin que la emoción nuble el juicio."}},
+        {state:"on", name:{en:"Seeks Win/Win",es:"Busca un Resultado Beneficioso para Ambos"}, desc:{en:"Individuals who are strong negotiators tend to find \"win/win\" outcomes, where both they and their customer get something they want.",es:"Los buenos negociadores suelen encontrar resultados en los que ambas partes ganan algo."}},
+        {state:"off", name:{en:"Will Find a Way to Close",es:"Encuentra la Forma de Cerrar"}, desc:{en:"Individuals strong at closing are able to consistently get their prospects to agree to make a decision before trying to close the opportunity.",es:"Quien es fuerte cerrando consigue que el prospecto acuerde tomar una decisión antes de intentar el cierre."}}
+      ]}},
+    {id:"salesProcess", name:{en:"Sales Process",es:"Proceso de Venta"}, score:19, target:67,
+      growth:{en:"proceed through a sales process based on how they think things are going and what they think they need to do next.",
+              es:"avanzan en el proceso de venta según su propia percepción de cómo van las cosas y lo que creen que deben hacer a continuación."},
+      strength:{en:"have a formal, staged, milestone-centric sales process that provides repeatable, predictable results.",
+                es:"cuentan con un proceso de venta formal, por etapas y con hitos definidos, que ofrece resultados repetibles y predecibles."},
+      drill:{type:"checklist", items:[
+        {state:"off", name:{en:"Follows Stages and Steps",es:"Sigue Etapas y Pasos"}, desc:{en:"An effective sales process should include appropriate stages or steps.",es:"Un proceso de venta eficaz debe incluir etapas o pasos adecuados."}},
+        {state:"off", name:{en:"Process Has Most Key Milestones",es:"Su Proceso Tiene los Hitos Clave"}, desc:{en:"A sales process should have the key milestones necessary to be effective.",es:"Un proceso de venta debe tener los hitos clave necesarios para ser eficaz."}},
+        {state:"off", name:{en:"Process Has Adequate Sequence",es:"Su Proceso Tiene una Secuencia Adecuada"}, desc:{en:"An effective sales process should have a proper sequence of activities.",es:"Un proceso de venta eficaz debe tener una secuencia adecuada de actividades."}},
+        {state:"on", name:{en:"Consistent and Effective Results",es:"Resultados Constantes y Eficaces"}, desc:{en:"An individual's sales process should produce consistent and effective results.",es:"El proceso de venta debe producir resultados constantes y eficaces."}},
+        {state:"off", name:{en:"Little Wasted Time",es:"Poco Tiempo Desperdiciado"}, desc:{en:"Individuals should minimize the time they waste with prospects that don't buy from them.",es:"Conviene minimizar el tiempo perdido con prospectos que no van a comprar."}},
+        {state:"off", name:{en:"Has and/or Follows an Effective Process",es:"Tiene y Sigue un Proceso Eficaz"}, desc:{en:"Individuals should follow a true sales process as opposed to a series of activities.",es:"Hay que seguir un verdadero proceso de venta y no una simple serie de actividades."}},
+        {state:"off", name:{en:"Uses an Effective Approach",es:"Usa un Enfoque Eficaz"}, desc:{en:"An effective sales process should help to lead predictable sales results.",es:"Un proceso de venta eficaz debe ayudar a lograr resultados predecibles."}},
+        {state:"off", name:{en:"Relationship-Based",es:"Basado en la Relación"}, desc:{en:"Strength in the Relationship Building Competency will help individuals when their sales process requires building a strong relationship with prospects in order to win the business.",es:"Tener fortaleza en \"Construir relaciones\" ayuda cuando el proceso de venta exige construir una relación sólida para ganar el negocio."}},
+        {state:"on", name:{en:"CRM Savvy",es:"Domina el CRM"}, desc:{en:"Strong CRM skills supports adherence to a structured sales process.",es:"Un buen dominio del CRM favorece seguir un proceso de venta estructurado."}},
+        {state:"off", name:{en:"Strategic Use of Sales Scorecard",es:"Uso Estratégico de un Cuadro de Mando"}, desc:{en:"Individuals should consider regularly using a scorecard that predicts the likelihood of winning business as part of qualifying prospects.",es:"Conviene usar regularmente un cuadro de mando que prediga la probabilidad de ganar el negocio como parte de la cualificación."}}
+      ]}},
+    {id:"salesTech", name:{en:"Sales Technology",es:"Tecnología de Venta"}, score:84, target:67,
+      growth:{en:"not be proficient with CRM, ignore LinkedIn, and choose face-to-face meetings over video.",
+              es:"no dominan el CRM, ignoran LinkedIn y prefieren las reuniones presenciales al vídeo."},
+      strength:{en:"be a daily user of CRM, frequent user of LinkedIn, and a regular user of video for sales calls and meetings.",
+                es:"usan el CRM a diario, son usuarios frecuentes de LinkedIn y utilizan el vídeo con regularidad en llamadas y reuniones."},
+      drill:{type:"checklist", items:[
+        {state:"on", name:{en:"CRM Savvy",es:"Domina el CRM"}, desc:{en:"Individuals should have experience with CRM and embrace it as a necessary part of sales success.",es:"Hay que tener experiencia con el CRM y aceptarlo como parte necesaria del éxito en ventas."}},
+        {state:"on", name:{en:"Social Selling",es:"Venta Social"}, desc:{en:"Individuals should be proficient at not only using professional social media tools, but also leveraging them for sales success.",es:"Hay que dominar las herramientas de redes sociales profesionales y aprovecharlas para el éxito en ventas."}},
+        {state:"on", name:{en:"Video Proficient",es:"Competente con el Vídeo"}, desc:{en:"Individuals should have the skills and passion necessary to effectively sell to customers via video.",es:"Hay que tener las habilidades y la motivación necesarias para vender eficazmente por vídeo."}}
+      ]}}
+);
+
+/* ---- OTHER ---- */
+var GROUP_OTHER = {
+  key:"other", color:"other",
+  name:{en:"Other Competencies",es:"Otras Competencias"},
+  intro:{en:"These Competencies measure capabilities that may not apply to all selling roles and salespeople. The importance of these competencies depends on the salesperson's role.",
+         es:"Estas competencias miden capacidades que pueden no aplicarse a todos los puestos y vendedores. Su importancia depende del puesto concreto."},
+  findings:[
+    {id:"salesPosturing", name:{en:"Sales Posturing",es:"Posicionamiento en la Venta"}, score:72, target:67,
+      growth:{en:"appear to lack authority or make a negative first impression.",
+              es:"pueden parecer carentes de autoridad o causar una primera impresión negativa."},
+      strength:{en:"make a good first impression by being positive, confident, and memorable.",
+                es:"causan una buena primera impresión al mostrarse positivos, seguros y memorables."},
+      drill:{type:"checklist", items:[
+        {state:"on", name:{en:"Good Self-Image",es:"Buena Autoimagen"}, desc:{en:"A strong self-image helps individuals maintain a sense of being rejection-proof and makes individuals memorable relative to competitors.",es:"Una autoimagen fuerte ayuda a sentirse a prueba de rechazo y a ser más memorable frente a la competencia."}},
+        {state:"on", name:{en:"Quickly Develops Rapport",es:"Genera Rapport Rápidamente"}, desc:{en:"Individuals should strive to build rapport on or during their first meeting with a prospect.",es:"Conviene generar rapport en la primera reunión con el prospecto."}},
+        {state:"on", name:{en:"Sales Optimism",es:"Optimismo en la Venta"}, desc:{en:"The tendency to expect positive outcomes in selling situations helps make a positive impression on prospects and makes prospects more comfortable.",es:"Esperar resultados positivos en la venta ayuda a causar una buena impresión y a que el prospecto se sienta más cómodo."}},
+        {state:"on", name:{en:"Sales Assertiveness",es:"Asertividad en la Venta"}, desc:{en:"Individuals should exhibit an appropriate amount of assertiveness with customers, being neither too timid nor too overconfident.",es:"Conviene mostrar la asertividad adecuada, sin ser ni tímido ni excesivamente confiado."}},
+        {state:"half", name:{en:"Sales Empathy",es:"Empatía en la Venta"}, desc:{en:"Individuals should have a good combination of being able to empathize with their prospects' problems while not empathizing with their prospects' stalls, put-offs, objections, and excuses.",es:"Conviene combinar la empatía con los problemas del prospecto sin empatizar con sus largas, excusas y objeciones."}},
+        {state:"on", name:{en:"Appropriate Amount of Patience",es:"Paciencia Adecuada"}, desc:{en:"Individuals should exhibit an appropriate amount of patience with prospects and customers, not being too impatient to appear pushy and not being too patient to accept stalling tactics, leaving customers with a good impression of them.",es:"Conviene mostrar la paciencia adecuada, dejando una buena impresión en el cliente."}},
+        {state:"off", name:{en:"Will Build Trust",es:"Genera Confianza"}, desc:{en:"Strength in the Building Trust Competency helps an individual be memorable and make a lasting impression.",es:"Tener fortaleza en \"Generar confianza\" ayuda a ser memorable y dejar una impresión duradera."}},
+        {state:"off", name:{en:"Good Listener",es:"Buen Oyente"}, desc:{en:"During conversations, listening far more than you talk helps customers feel understood and positively differentiates the individual.",es:"Escuchar mucho más de lo que se habla ayuda a que el cliente se sienta comprendido y diferencia positivamente."}},
+        {state:"on", name:{en:"Healthy Skepticism",es:"Escepticismo Saludable"}, desc:{en:"Not being overly trusting of prospects makes individuals more comfortable asking questions and also more memorable.",es:"No confiar en exceso en el prospecto facilita preguntar y resulta más memorable."}}
+      ]}},
+    {id:"negotiating", name:{en:"Negotiating",es:"Negociación"}, score:45, target:67,
+      growth:{en:"attempt to persuade customers for a short time and then agree with their customer's demands.",
+              es:"intentan persuadir al cliente durante poco tiempo y después aceptan sus exigencias."},
+      strength:{en:"be willing to walk away, ask questions, and seek a win-win outcome.",
+                es:"están dispuestos a retirarse, hacer preguntas y buscar un resultado beneficioso para ambas partes."},
+      drill:{type:"checklist", items:[
+        {state:"on", name:{en:"Seeks Win/Win",es:"Busca un Resultado Beneficioso para Ambos"}, desc:{en:"Individuals who are strong negotiators tend to find \"win/win\" outcomes, where both they and their customer get something they want.",es:"Los buenos negociadores suelen encontrar resultados en los que ambas partes ganan algo."}},
+        {state:"off", name:{en:"Willing to Walk",es:"Dispuesto a Retirarse"}, desc:{en:"An important strategy while negotiating is being willing to walk away from negotiations if they are not going well.",es:"Una estrategia importante en la negociación es estar dispuesto a retirarse si no va bien."}},
+        {state:"on", name:{en:"Manages Appropriate Amount of Patience",es:"Gestiona Bien la Paciencia"}, desc:{en:"Individuals should exhibit an appropriate amount of patience while negotiating, not being too impatient to appear pushy and not being too patient to accept stalling tactics.",es:"Conviene mostrar la paciencia adecuada al negociar."}},
+        {state:"off", name:{en:"Able to Listen/Ask with Ease",es:"Escucha y Pregunta con Naturalidad"}, desc:{en:"Individuals who know the value of listening more than talking are able to uncover advantages during a negotiation.",es:"Saber que escuchar vale más que hablar permite descubrir ventajas durante la negociación."}},
+        {state:"off", name:{en:"Able to Stay in the Moment",es:"Se Mantiene en el Momento"}, desc:{en:"When negotiating, individuals should be able to remain focused and not allow emotions to cloud their objectivity.",es:"Al negociar, conviene mantenerse centrado sin que las emociones nublen la objetividad."}},
+        {state:"off", name:{en:"Goal Oriented",es:"Orientado a Metas"}, desc:{en:"Strong organizational tendencies in an individual's personal goal management also help them with the organizational skills necessary to successfully negotiate complex situations.",es:"Una buena organización personal en metas ayuda también a negociar con éxito situaciones complejas."}},
+        {state:"on", name:{en:"Problem Solver",es:"Resuelve Problemas"}, desc:{en:"Successful negotiation involves thinking of solutions, as opposed to worrying about problems or getting consumed by them.",es:"La negociación exitosa implica pensar en soluciones en lugar de preocuparse por los problemas."}},
+        {state:"on", name:{en:"Doesn't Need to be Liked",es:"No Necesita Caer Bien"}, desc:{en:"Individuals should be willing to accept that a negotiation may negatively impact how much a customer likes them.",es:"Conviene aceptar que una negociación puede afectar a cuánto le agrada uno al cliente."}},
+        {state:"on", name:{en:"Rejection Proof",es:"A Prueba de Rechazo"}, desc:{en:"The ability to swiftly recover from rejection allows an individual to respond during negotiations.",es:"Recuperarse rápido del rechazo permite responder bien durante la negociación."}},
+        {state:"off", name:{en:"Selling Value",es:"Vende por Valor"}, desc:{en:"Strength in the Selling Value Competency helps individuals identify positive outcomes in negotiations.",es:"Tener fortaleza en \"Vender valor\" ayuda a identificar resultados positivos en la negociación."}},
+        {state:"off", name:{en:"Will Discuss Finances",es:"Habla de Finanzas con Naturalidad"}, desc:{en:"Individuals with the ability to discuss money with a great deal of ease are able to more effectively negotiate aspects of an opportunity related to money or challenge a prospect's money-related pushback.",es:"Poder hablar de dinero con facilidad permite negociar mejor los aspectos económicos y rebatir objeciones sobre precio."}}
+      ]}},
+    {id:"buildingTrust", name:{en:"Building Trust",es:"Generar Confianza"}, score:52, target:67,
+      growth:{en:"have integrity but behave in a way that causes customers to become defensive.",
+              es:"tienen integridad, pero se comportan de forma que el cliente se pone a la defensiva."},
+      strength:{en:"be viewed by prospects and customers as authentic, reliable, and accountable.",
+                es:"son percibidos por prospectos y clientes como auténticos, fiables y responsables."},
+      drill:{type:"checklist", items:[
+        {state:"off", name:{en:"Gains Trust Early",es:"Gana Confianza Pronto"}, desc:{en:"Individual should be able to get their prospects to trust them early in their conversations, helping establish credibility.",es:"Hay que ganarse la confianza del prospecto pronto en la conversación, lo que ayuda a establecer credibilidad."}},
+        {state:"on", name:{en:"High Integrity Seller",es:"Vendedor de Alta Integridad"}, desc:{en:"Individuals who, when faced with conflicting business choices, favor honoring existing commitments over new opportunity tend to be able to build strong trust with customers.",es:"Quien, ante decisiones de negocio en conflicto, prioriza cumplir los compromisos existentes sobre una nueva oportunidad, suele generar más confianza."}},
+        {state:"on", name:{en:"Customers Share Information Early",es:"Los Clientes Comparten Información Pronto"}, desc:{en:"When customers share information early in the sales process, it opens the door to take a consultative approach.",es:"Cuando el cliente comparte información pronto, se abre la puerta a un enfoque consultivo."}},
+        {state:"off", name:{en:"Gets First Call from Customers",es:"Es la Primera Llamada del Cliente"}, desc:{en:"An individual should strive to have their customers consult or include them early in the planning process, suggesting they are more inclined to give them their business.",es:"Conviene que el cliente le consulte o incluya pronto en su planificación, señal de que está más dispuesto a darle el negocio."}},
+        {state:"on", name:{en:"Quickly Develops Rapport",es:"Genera Rapport Rápidamente"}, desc:{en:"Building rapport on the first call/meeting supports the ability to quickly build trust.",es:"Generar rapport en la primera llamada o reunión favorece ganar confianza rápidamente."}},
+        {state:"on", name:{en:"Believes They Are Quickly Liked by Customers",es:"Cree que Cae Bien Rápidamente"}, desc:{en:"Individuals who can quickly build rapport tend to build more trust with their customers.",es:"Quien genera rapport rápido suele generar también más confianza."}}
+      ]}},
+    {id:"accountMgmt", name:{en:"Account Management",es:"Gestión de Cuentas"}, score:19, target:67,
+      growth:{en:"take their customers for granted, and/or be content with incremental account growth.",
+              es:"dan a sus clientes por sentado o se conforman con un crecimiento incremental de la cuenta."},
+      strength:{en:"actively service the account, proactively solve problems, and nurture the customer relationship to maintain that account's business.",
+                es:"atienden la cuenta de forma activa, resuelven problemas de manera proactiva y cuidan la relación para mantener el negocio de esa cuenta."},
+      drill:{type:"checklist", items:[
+        {state:"off", name:{en:"Has Strong Relationships",es:"Tiene Relaciones Sólidas"}, desc:{en:"Strong abilities in the Relationship Building Competency also support an individual's ability to form the long-running relationships necessary to be an effective account manager.",es:"Tener fortaleza en \"Construir relaciones\" ayuda también a formar las relaciones duraderas necesarias para gestionar bien las cuentas."}},
+        {state:"off", name:{en:"Will Handle Organizational Politics",es:"Gestiona la Política Organizativa"}, desc:{en:"When a customer exhibits unpredictable behavior, it is useful to try to discover why instead of making assumptions. This same curiosity can also help individuals uncover hidden opportunities and overcome obstacles.",es:"Cuando un cliente se comporta de forma imprevisible, conviene indagar el porqué en lugar de suponer; esa misma curiosidad ayuda a descubrir oportunidades ocultas."}},
+        {state:"off", name:{en:"Will Make Friends Everywhere",es:"Hace Amigos en Todas Partes"}, desc:{en:"The desire to be considered a friend and/or liked by customers is non-supportive in other areas of sales, but can help an individual be a more effective account manager.",es:"El deseo de ser considerado amigo o de agradar al cliente no ayuda en otras áreas de venta, pero sí en la gestión de cuentas."}},
+        {state:"on", name:{en:"Will Follow Up Often",es:"Hace Seguimiento con Frecuencia"}, desc:{en:"An individual's tendency to follow up often with customers helps ensure that they will be viewed as a trusted resource and provides that individual with more opportunities to develop additional opportunities.",es:"Hacer seguimiento frecuente con el cliente ayuda a ser visto como un recurso de confianza y genera más oportunidades."}},
+        {state:"off", name:{en:"Will Meet/Talk with Decision Makers",es:"Se Reúne con Quien Decide"}, desc:{en:"Being strong in the Reaching Decision Makers Competency also helps account managers move beyond their usual contact to the actual decision maker when needed.",es:"Ser fuerte en \"Llegar a quien decide\" ayuda también a superar el contacto habitual y llegar a quien decide cuando haga falta."}},
+        {state:"off", name:{en:"Will Know the Real Budgets",es:"Conoce los Presupuestos Reales"}, desc:{en:"Getting customers to share their budget helps account managers uncover additional opportunities.",es:"Conseguir que el cliente comparta su presupuesto ayuda a descubrir oportunidades adicionales."}},
+        {state:"off", name:{en:"Won't Feel Urgency to Close Business",es:"No Siente Urgencia por Cerrar"}, desc:{en:"When an individual is patient regarding getting commitments from customers, it makes customers more comfortable and helps them see the individual as a trusted resource.",es:"Ser paciente al obtener compromisos del cliente lo hace sentir más cómodo y refuerza la confianza."}},
+        {state:"off", name:{en:"Won't Alienate People",es:"No Distancia a las Personas"}, desc:{en:"While enjoying the approval of customers is a negative for other areas of sales, it is helpful in account management.",es:"Disfrutar de la aprobación del cliente, aunque no ayuda en otras áreas, sí es útil en la gestión de cuentas."}},
+        {state:"off", name:{en:"Will Focus on Current Accounts Rather than Looking for New Accounts",es:"Se Centra en Cuentas Actuales, No en Nuevas"}, desc:{en:"Individuals who are not inclined to hunt for new customers tend to focus on managing existing customers as opposed to hunting for new ones, making them more effective at account management.",es:"Quien no tiende a buscar nuevos clientes suele centrarse en gestionar los existentes, lo que le hace más eficaz en la gestión de cuentas."}},
+        {state:"on", name:{en:"Will Manage Time Effectively",es:"Gestiona Bien el Tiempo"}, desc:{en:"Excellent organizational skills help an individual be an effective account manager.",es:"Una buena organización ayuda a gestionar las cuentas con eficacia."}}
+      ]}}
+  ]
+};
+GROUP_OTHER.findings.push(
+    {id:"farming", name:{en:"Farming",es:"Cultivo de Cuentas"}, score:45, target:67,
+      growth:{en:"have relationships that aren't strong enough to leverage for an increase in a customer's revenue.",
+              es:"tienen relaciones que no son lo bastante sólidas como para aprovecharlas y aumentar los ingresos del cliente."},
+      strength:{en:"leverage their good relationships with stakeholders at a customer to achieve account growth.",
+                es:"aprovechan sus buenas relaciones con los interlocutores del cliente para hacer crecer la cuenta."},
+      drill:{type:"checklist", items:[
+        {state:"off", name:{en:"Attempts to Close",es:"Intenta Cerrar"}, desc:{en:"Individuals should place tremendous importance on getting a customer to agree to decide, and consistently get customers to agree to decide before trying to close.",es:"Conviene dar mucha importancia a que el cliente acuerde decidir, y conseguirlo de forma constante antes de intentar cerrar."}},
+        {state:"on", name:{en:"Has Closing Urgency",es:"Tiene Urgencia de Cierre"}, desc:{en:"When a customer asks someone to follow up about a decision later, that individual should appropriately push back to discover why.",es:"Cuando el cliente pide posponer una decisión, conviene rebatir adecuadamente para descubrir el motivo."}},
+        {state:"on", name:{en:"Won't \"Understand\" Most Objections",es:"No \"Comprende\" la Mayoría de Objeciones"}, desc:{en:"Individuals with supportive buying habits in their personal life are less likely to sympathize with customers' objections.",es:"Quien tiene hábitos de compra favorables en su vida personal tiende a ser menos comprensivo con las objeciones del cliente."}},
+        {state:"off", name:{en:"Won't Panic Over Objections",es:"No se Altera ante Objeciones"}, desc:{en:"Being strong in the Stays in the Moment Competency allows individuals to stay objective when existing customers have objections.",es:"Ser fuerte en \"Mantenerse en el momento\" ayuda a mantenerse objetivo ante las objeciones de clientes existentes."}},
+        {state:"off", name:{en:"Handles \"It's a Lot of Money\" Objection",es:"Gestiona la Objeción de \"Es Mucho Dinero\""}, desc:{en:"Individuals with a healthy perspective on value can respond appropriately when a customer objects to something costing a lot.",es:"Tener una perspectiva sana sobre el valor permite responder bien cuando el cliente objeta que algo cuesta mucho."}},
+        {state:"on", name:{en:"Won't Accept Put Offs",es:"No Acepta Largas"}, desc:{en:"Individuals must be able to avoid put offs when scheduling meetings with their existing customers or trying to close opportunities.",es:"Hay que evitar las largas al programar reuniones con clientes existentes o al intentar cerrar oportunidades."}},
+        {state:"on", name:{en:"Believes They Are Quickly Liked by Customers",es:"Cree que Cae Bien Rápidamente"}, desc:{en:"When an individual is quickly liked by customers and/or they are able to quickly build rapport, they are able to gain more business from existing customers.",es:"Cuando el cliente aprecia rápidamente a alguien o genera rapport rápido, es más fácil conseguir más negocio de clientes existentes."}},
+        {state:"off", name:{en:"Won't Alienate Customers",es:"No Distancia a los Clientes"}, desc:{en:"Individuals who swiftly recover from rejection and move on to other opportunities run the risk of alienating customers when their role is growing a small number of key accounts.",es:"Quien se recupera rápido del rechazo y pasa a otras oportunidades corre el riesgo de distanciar a clientes cuando su función es hacer crecer pocas cuentas clave."}},
+        {state:"off", name:{en:"Unlikely to be Distracted by New Accounts",es:"No se Distrae con Cuentas Nuevas"}, desc:{en:"Individuals who don't enjoy hunting for new customers tend to be able to place more energy on getting more business from existing customers.",es:"Quien no disfruta buscando nuevos clientes suele dedicar más energía a conseguir más negocio de los existentes."}}
+      ]}},
+    {id:"workingRemotely", name:{en:"Working Remotely",es:"Trabajo en Remoto"}, score:100, target:67,
+      growth:{en:"be more effective in an office environment with close supervision.",
+              es:"son más eficaces en un entorno de oficina con supervisión cercana."},
+      strength:{en:"thrive working remotely without close supervision.",
+                es:"prosperan trabajando en remoto sin supervisión cercana."},
+      drill:{type:"checklist", items:[
+        {state:"on", name:{en:"Works Independently",es:"Trabaja de Forma Independiente"}, desc:null},
+        {state:"on", name:{en:"Effective Time Management",es:"Buena Gestión del Tiempo"}, desc:null},
+        {state:"on", name:{en:"Self-Starter",es:"Proactivo / Autónomo"}, desc:null},
+        {state:"on", name:{en:"CRM Savvy",es:"Domina el CRM"}, desc:null},
+        {state:"on", name:{en:"Video Proficient",es:"Competente con el Vídeo"}, desc:null}
+      ]}},
+    {id:"compatibility", name:{en:"Compatibility",es:"Compatibilidad"}, score:84, target:75,
+      growth:{en:"be uncomfortable with many of the requirements for this role.",
+              es:"se sentirían incómodos con muchos de los requisitos de este puesto."},
+      strength:{en:"have experience with many of the requirements for this role.",
+                es:"cuentan con experiencia en muchos de los requisitos de este puesto."},
+      drill:{type:"compat", pairs:[
+        {label:{en:"Primary Market",es:"Mercado Principal"}, values:[{en:"Corporate/Industrial",es:"Corporativo / Industrial"},{en:"Small business/professional",es:"Pequeña empresa / profesional"}]},
+        {label:{en:"Prospects by Title",es:"Prospectos por Cargo"}, values:[{en:"Ownership or C Level",es:"Propiedad o nivel C"},{en:"Management Level",es:"Nivel de dirección"}]},
+        {label:{en:"Resistance",es:"Resistencia"}, values:[{en:"Moderate resistance",es:"Resistencia moderada"}]},
+        {label:{en:"Competition",es:"Competencia"}, values:[{en:"Regular competition",es:"Competencia habitual"}]},
+        {label:{en:"Pricing",es:"Precios"}, values:[{en:"We are usually higher",es:"Solemos ser más caros"}]},
+        {label:{en:"Average Order",es:"Pedido Medio"}, values:[{en:"$US1,000 – $US25,000",es:"1.000 – 25.000 USD"}]},
+        {label:{en:"Product Sold",es:"Producto Vendido"}, values:[{en:"Products we can demonstrate",es:"Productos que podemos demostrar"}]},
+        {label:{en:"Sales Cycle",es:"Ciclo de Venta"}, values:[{en:"Two to three calls",es:"De dos a tres llamadas"}]},
+        {label:{en:"Customer Development",es:"Desarrollo de Clientes"}, values:[{en:"Sell them and move on",es:"Vender y seguir adelante"}]},
+        {label:{en:"Priorities",es:"Prioridades"}, values:[{en:"Hunting required",es:"Se requiere caza de nuevos clientes"}]},
+        {label:{en:"Closing",es:"Cierre"}, values:[{en:"Salesperson will do the closing",es:"El cierre lo hace el comercial"}]},
+        {label:{en:"Presentations",es:"Presentaciones"}, values:[{en:"Once to a single decision maker",es:"Una vez ante un único decisor"},{en:"Once to a group",es:"Una vez ante un grupo"},{en:"Multiple times to individuals",es:"Varias veces ante individuos"},{en:"Multiple times to a group",es:"Varias veces ante un grupo"}]},
+        {label:{en:"Product Quality",es:"Calidad del Producto"}, values:[{en:"Top of the line",es:"Gama alta"},{en:"Middle of the pack",es:"Gama media"}]},
+        {label:{en:"Pressure",es:"Presión"}, values:[{en:"Medium",es:"Media"}]},
+        {label:{en:"Supervision",es:"Supervisión"}, values:[{en:"Closely managed",es:"Supervisión estrecha"}]},
+        {label:{en:"Company",es:"Empresa"}, values:[{en:"Small to medium sized business",es:"Pequeña o mediana empresa"}]},
+        {label:{en:"Compensation",es:"Compensación"}, values:[{en:"Mostly commission with some salary",es:"Mayormente comisión con algo de salario base"}]},
+        {label:{en:"Selling Environment",es:"Entorno de Venta"}, values:[{en:"Turbulent and ever changing",es:"Turbulento y cambiante"}]},
+        {label:{en:"Location",es:"Ubicación"}, values:[{en:"Out of my office or one staffed by a sales manager",es:"Desde mi oficina o una con un gerente de ventas"},{en:"Out of a remote or home office without staff",es:"Desde una oficina remota o en casa sin personal"}]},
+        {label:{en:"Entrepreneurial",es:"Espíritu Emprendedor"}, values:[{en:"It does not matter",es:"No es relevante"}]},
+        {label:{en:"Selling Methods",es:"Métodos de Venta"}, values:[{en:"On the phone",es:"Por teléfono"},{en:"At trade shows",es:"En ferias comerciales"}]},
+        {label:{en:"Channel",es:"Canal"}, values:[{en:"Directly to the Customer / Client",es:"Directo al cliente"}]},
+        {label:{en:"Decision Factor",es:"Factor de Decisión"}, values:[{en:"Buying what we sell, but must choose from whom (Why me?)",es:"Compran lo que vendemos, pero deben elegir a quién comprárselo (¿Por qué a mí?)"}]},
+        {label:{en:"Networking",es:"Networking"}, values:[{en:"Social Selling",es:"Venta social"}]},
+        {label:{en:"Leads",es:"Leads"}, values:[{en:"We provide some – they need to supplement",es:"Proporcionamos algunos; deben complementar con los suyos"}]}
+      ]}}
+);
+
+var GROUPS = {will:GROUP_WILL, dna:GROUP_DNA, tactical:GROUP_TACTICAL, other:GROUP_OTHER};
+
+/* ---- Curated Top Strengths (ref: groupKey, findingId) ---- */
+var STRENGTHS = [
+  {ref:["dna","handlesRejection"]},
+  {ref:["other","workingRemotely"]},
+  {ref:["tactical","hunting"]},
+  {ref:["will","desire"]},
+  {ref:["tactical","salesTech"]},
+  {ref:["tactical","closing"]},
+  {ref:["other","compatibility"]},
+  {ref:["dna","doesntNeedApproval"]}
+];
+
+/* ---- Curated Low-Hanging Fruit, tied to the Business Development Manager role description ---- */
+var FOCUS = [
+  {ref:["will","responsibility"], reason:{
+    en:"The role calls for strong organisation, resilience, and accountability. A Responsibility score of 0 against a target of 50 is the single biggest gap in the assessment.",
+    es:"El puesto exige organización, resiliencia y responsabilidad. Una puntuación de 0 en Responsabilidad frente a un objetivo de 50 es la brecha más grande de toda la evaluación."}},
+  {ref:["will","commitment"], reason:{
+    en:"\"Strong organisation, resilience and accountability\" is listed explicitly in the role's requirements — Commitment measures exactly this.",
+    es:"\"Organización, resiliencia y responsabilidad\" aparece explícitamente entre los requisitos del puesto — el Compromiso mide precisamente esto."}},
+  {ref:["tactical","relBuilding"], reason:{
+    en:"The role is built on \"long-standing customer relationships\" and a consultative, customer-focused approach with architects and specifiers.",
+    es:"El puesto se apoya en \"relaciones duraderas con los clientes\" y en un enfoque consultivo y centrado en el cliente con arquitectos y prescriptores."}},
+  {ref:["tactical","salesProcess"], reason:{
+    en:"The role requires \"managing opportunities through to close\" and maintaining accurate Salesforce records — both depend on a repeatable, structured sales process.",
+    es:"El puesto exige \"gestionar las oportunidades hasta el cierre\" y mantener registros precisos en Salesforce — ambos dependen de un proceso de venta estructurado y repetible."}},
+  {ref:["tactical","qualifying"], reason:{
+    en:"Full-cycle ownership from prospecting to close depends on properly qualifying opportunities before investing time in them.",
+    es:"Gestionar el ciclo completo, de la prospección al cierre, exige cualificar bien las oportunidades antes de invertir tiempo en ellas."}},
+  {ref:["tactical","presentation"], reason:{
+    en:"The role explicitly includes \"delivering product demonstrations and proposals\" — this is where that skill is measured.",
+    es:"El puesto incluye explícitamente \"ofrecer demostraciones de producto y propuestas\" — aquí es donde se mide esa habilidad."}},
+  {ref:["tactical","consultative"], reason:{
+    en:"\"Running consultative discovery conversations\" is named directly in the role's day-to-day responsibilities.",
+    es:"\"Mantener conversaciones de descubrimiento consultivas\" aparece directamente entre las responsabilidades del día a día del puesto."}},
+  {ref:["tactical","reachingDM"], reason:{
+    en:"The role requires \"confidence engaging senior stakeholders\" — practice managers and technical directors — which depends on reliably reaching the actual decision-maker.",
+    es:"El puesto exige \"confianza para tratar con interlocutores de alto nivel\" — gerentes de despacho y directores técnicos — lo cual depende de llegar de forma fiable hasta quien decide."}}
+];
+
+/* ---- Competency definitions (for info-button popovers) ---- */
+var DEFS = {
+  "dev.coachable":{en:"Measures how receptive this individual is to feedback, coaching, and changing behavior based on it.",
+    es:"Mide en qué medida esta persona es receptiva al feedback, al coaching y a cambiar su comportamiento en consecuencia."},
+  "dev.figureItOut":{en:"Measures this individual's ability to solve problems and figure things out independently — a strong indicator of ramp-up speed in a new role.",
+    es:"Mide la capacidad de esta persona para resolver problemas y desenvolverse de forma independiente — un buen indicador de la rapidez con la que se adaptará a un nuevo puesto."},
+
+  "will.desire":{en:"Measures the urgency and drive a salesperson feels to take action, prioritize sales activity, and care about achieving sales results.",
+    es:"Mide la urgencia y el impulso que siente un vendedor para actuar, priorizar la actividad comercial y preocuparse por alcanzar resultados de ventas."},
+  "will.commitment":{en:"Measures whether a salesperson will do whatever it takes, ethically and without conditions, to succeed in their role.",
+    es:"Mide si un vendedor hará lo que haga falta, de forma ética y sin condiciones, para tener éxito en su puesto."},
+  "will.outlook":{en:"Measures how positive, focused, and appreciative a salesperson feels about their career prospects.",
+    es:"Mide cuán positivo, centrado y agradecido se siente un vendedor respecto a sus perspectivas profesionales."},
+  "will.responsibility":{en:"Measures whether a salesperson holds themselves accountable for their sales results rather than attributing shortfalls to the economy, competition, or company.",
+    es:"Mide si un vendedor se responsabiliza de sus resultados de ventas en lugar de atribuir la falta de resultados a la economía, la competencia o la empresa."},
+  "will.motivation":{en:"Measures whether a salesperson has a compelling personal dream or goal that fuels the work they do to achieve sales success.",
+    es:"Mide si un vendedor tiene un sueño o una meta personal convincente que impulsa su trabajo para alcanzar el éxito en ventas."},
+
+  "dna.doesntNeedApproval":{en:"Measures whether a salesperson can ask tough questions and challenge the status quo with customers without worrying about being liked.",
+    es:"Mide si un vendedor es capaz de hacer preguntas difíciles y cuestionar el statu quo con los clientes sin preocuparse por caer bien."},
+  "dna.staysInMoment":{en:"Measures a salesperson's ability to stay objective and actively listen to prospects, rather than being distracted by their own internal self-talk.",
+    es:"Mide la capacidad de un vendedor para mantenerse objetivo y escuchar activamente a los prospectos, en lugar de distraerse con su propio diálogo interno."},
+  "dna.supportiveBeliefs":{en:"Measures whether a salesperson's self-talk empowers them to take positive action, or instead limits their actions with negative, sales-specific beliefs.",
+    es:"Mide si el diálogo interno de un vendedor le capacita para actuar de forma positiva, o si en cambio limita sus acciones con creencias negativas relacionadas con las ventas."},
+  "dna.supportiveBuyCycle":{en:"Measures whether a salesperson's own personal buying habits support pushing back on price objections, comparison shopping, and indecision — or lead them to sympathize with those same behaviors in prospects.",
+    es:"Mide si los propios hábitos de compra personales de un vendedor le ayudan a rebatir objeciones de precio, la comparación de opciones y la indecisión, o si por el contrario le llevan a comprender esas mismas conductas en sus prospectos."},
+  "dna.comfortableMoney":{en:"Measures how comfortable a salesperson is discussing budget and money with prospects and customers.",
+    es:"Mide cuán cómodo se siente un vendedor hablando de presupuesto y dinero con prospectos y clientes."},
+  "dna.handlesRejection":{en:"Measures how quickly a salesperson recovers emotionally from rejection and moves on to the next opportunity.",
+    es:"Mide con qué rapidez se recupera emocionalmente un vendedor tras un rechazo y pasa a la siguiente oportunidad."},
+
+  "tactical.hunting":{en:"Measures a salesperson's proactive, consistent effort to find new business by reaching out to targeted prospects.",
+    es:"Mide el esfuerzo proactivo y constante de un vendedor para encontrar nuevos negocios contactando con prospectos específicos."},
+  "tactical.reachingDM":{en:"Measures a salesperson's ability and willingness to reach the person actually responsible for deciding to purchase.",
+    es:"Mide la capacidad y disposición de un vendedor para llegar hasta la persona realmente responsable de decidir la compra."},
+  "tactical.relBuilding":{en:"Measures a salesperson's ability to build a bond with a customer strong enough to generate referrals, repeat business, or loyalty.",
+    es:"Mide la capacidad de un vendedor para construir con un cliente un vínculo lo bastante sólido como para generar referencias, negocio recurrente o fidelidad."},
+  "tactical.consultative":{en:"Measures a salesperson's ability to uncover compelling reasons to buy by using active listening and good, tough, timely questions before presenting.",
+    es:"Mide la capacidad de un vendedor para descubrir razones convincentes de compra mediante la escucha activa y preguntas buenas, difíciles y oportunas, antes de presentar."},
+  "tactical.sellingValue":{en:"Measures a salesperson's ability to position themselves as a trusted advisor and keep conversations focused on value rather than price.",
+    es:"Mide la capacidad de un vendedor para posicionarse como asesor de confianza y mantener la conversación centrada en el valor y no en el precio."},
+  "tactical.qualifying":{en:"Measures how thoroughly a salesperson qualifies an opportunity — budget, decision process, timing — before investing time in a quote or proposal.",
+    es:"Mide con qué rigor cualifica un vendedor una oportunidad (presupuesto, proceso de decisión, plazos) antes de invertir tiempo en un presupuesto o una propuesta."},
+  "tactical.presentation":{en:"Measures how thoughtfully a salesperson decides what to present, when to present it, and to whom.",
+    es:"Mide con qué criterio decide un vendedor qué presentar, cuándo hacerlo y a quién."},
+  "tactical.closing":{en:"Measures a salesperson's ability to secure a verbal commitment in advance and confidently drive opportunities to a decision.",
+    es:"Mide la capacidad de un vendedor para conseguir un compromiso verbal por adelantado y llevar con confianza las oportunidades hasta una decisión."},
+  "tactical.salesProcess":{en:"Measures whether a salesperson follows a formal, staged, milestone-based sales process that produces repeatable results, rather than an ad hoc approach.",
+    es:"Mide si un vendedor sigue un proceso de venta formal, por etapas y con hitos definidos que produce resultados repetibles, en lugar de un enfoque improvisado."},
+  "tactical.salesTech":{en:"Measures a salesperson's proficiency with CRM, LinkedIn / social selling, and video for sales calls and meetings.",
+    es:"Mide el dominio de un vendedor con el CRM, LinkedIn / venta social, y el vídeo para llamadas y reuniones de ventas."},
+
+  "other.salesPosturing":{en:"Measures a salesperson's ability to make a positive, confident, and memorable first impression on prospects.",
+    es:"Mide la capacidad de un vendedor para causar una primera impresión positiva, segura y memorable en los prospectos."},
+  "other.negotiating":{en:"Measures a salesperson's willingness to ask questions, hold firm, walk away if needed, and negotiate toward a win-win outcome.",
+    es:"Mide la disposición de un vendedor a preguntar, mantenerse firme, retirarse si es necesario y negociar hacia un resultado beneficioso para ambas partes."},
+  "other.buildingTrust":{en:"Measures whether prospects and customers view a salesperson as authentic, reliable, and accountable.",
+    es:"Mide si los prospectos y clientes perciben a un vendedor como auténtico, fiable y responsable."},
+  "other.accountMgmt":{en:"Measures a salesperson's ability to proactively service an existing account, solve problems, and nurture the relationship to retain that business.",
+    es:"Mide la capacidad de un vendedor para atender de forma proactiva una cuenta existente, resolver problemas y cuidar la relación para retener ese negocio."},
+  "other.farming":{en:"Measures a salesperson's ability to leverage strong relationships with stakeholders at a customer to grow that account's revenue.",
+    es:"Mide la capacidad de un vendedor para aprovechar relaciones sólidas con los interlocutores de un cliente y hacer crecer los ingresos de esa cuenta."},
+  "other.workingRemotely":{en:"Measures how effectively a salesperson performs when working remotely without close, in-person supervision.",
+    es:"Mide la eficacia de un vendedor cuando trabaja en remoto sin supervisión presencial cercana."},
+  "other.compatibility":{en:"Measures how well a candidate's stated experience and preferences align with the specific requirements of this role.",
+    es:"Mide en qué medida la experiencia y las preferencias declaradas de un candidato se alinean con los requisitos específicos de este puesto."}
+};
+
+/* ============ ADDITIONAL REPORT DATA ============
+   Everything here comes from the OMG PDF.
+   Individual finding scores only — no group roll-ups, no aggregate or
+   overall figures, and no hiring verdict. */
+
+var CONFIDENCE = {
+  score: 70, target: 80,
+  label: {en:"Moderate Confidence", es:"Confianza Moderada"},
+  note: {en:"Testing Time: 72<br>Average: 55", es:"Tiempo de realización: 72<br>Media: 55"}
+};
+
+/* ---- UI strings added on top of the existing UI map ---- */
+var UI_ADD = {
+  en:{
+    "nav.overview":"Overview","nav.dashboard":"Dashboard",
+    "nav.lushin":"Lushin","nav.competencies":"Competencies",
+    "dash.development":"Development","dash.other":"Other","dash.confidence":"Scoring Confidence",
+    "theme":"Theme","light":"Light","dark":"Dark",
+    "goDeeper":"Open"
+  },
+  es:{
+    "nav.overview":"Resumen","nav.dashboard":"Panel",
+    "nav.lushin":"Lushin","nav.competencies":"Competencias",
+    "dash.development":"Desarrollo","dash.other":"Otras","dash.confidence":"Fiabilidad de las Respuestas",
+    "theme":"Tema","light":"Claro","dark":"Oscuro",
+    "goDeeper":"Abrir"
+  }
+};
+for(var _l in UI_ADD){ for(var _k in UI_ADD[_l]){ UI[_l][_k] = UI_ADD[_l][_k]; } }
+
+/* ============ STATE ============ */
+var STATE = {lang:"en", theme:"light", sidebar:true};
+try{
+  var _l=localStorage.getItem("omg_lang"); if(_l) STATE.lang=_l;
+  var _t=localStorage.getItem("omg_theme"); if(_t) STATE.theme=_t;
+  var _s=localStorage.getItem("omg_sidebar"); if(_s!==null) STATE.sidebar=(_s==="1");
+}catch(e){}
+function save(){ try{
+  localStorage.setItem("omg_lang",STATE.lang);
+  localStorage.setItem("omg_theme",STATE.theme);
+  localStorage.setItem("omg_sidebar",STATE.sidebar?"1":"0");
+}catch(e){} }
+
+function t(k){ return (UI[STATE.lang]&&UI[STATE.lang][k]) || UI.en[k] || k; }
+function tr(o){ if(!o) return ""; return o[STATE.lang] || o.en || ""; }
+function esc(s){ return (s==null?"":String(s)).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]; }); }
+
+var ORDER = [["will",GROUP_WILL],["dna",GROUP_DNA],["tactical",GROUP_TACTICAL],["other",GROUP_OTHER]];
+function findFinding(gk,id){
+  var g=GROUPS[gk]; if(!g) return null;
+  for(var i=0;i<g.findings.length;i++) if(g.findings[i].id===id) return g.findings[i];
+  return null;
+}
+function cvar(gk){ return "var(--c-"+gk+")"; }
+function atTarget(f){ return f.score >= f.target; }
+
+/* ============ COMPONENTS ============ */
+
+/* pill bar — width = min-cap + remaining track scaled by the score, exactly as OMG draws it */
+function bar(score,target,gk,opts){
+  opts=opts||{};
+  var pos = function(v){ return "calc(var(--bar-min) + (100% - var(--bar-min)) * "+(Math.max(0,Math.min(100,v))/100)+")"; };
+  var at = score>=target;
+  var cls = "bar" + (gk==="other"||gk==="grey" ? " grey" : "");
+  var style = (gk && gk!=="other" && gk!=="grey") ? ' style="--c:'+cvar(gk)+'"' : "";
+  var label = opts.label ? '<div class="bar-label">'+opts.label+'</div>' : "";
+  var tick = (target||target===0)
+    ? '<div class="bar-tick" style="left:'+pos(target)+'">'+esc(t("target"))+' '+target+'</div>' : "";
+  var inner = '<div class="'+cls+'"'+style+'>'+label+
+    '<div class="bar-track">'+
+      '<div class="bar-fill'+(at?" at":"")+'" style="width:'+pos(score)+'"><span>'+score+'</span></div>'+
+      tick+
+    '</div></div>';
+  if(opts.href){
+    var wrapCls = "bar-link" + (gk==="other"||gk==="grey" ? " grey" : "");
+    return '<div class="'+wrapCls+'"'+style+' data-go="'+esc(opts.href)+'" role="link" tabindex="0">'+inner+'</div>';
+  }
+  return inner;
+}
+
+var CHEV = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
+
+/* one label builder for every place a finding is listed: name, plus a chevron
+   and a click target when that finding has its own findings page */
+function findingBar(gk,f,extraOpts){
+  var o = extraOpts || {};
+  var href = f.drill ? "#f-"+gk+"-"+f.id : null;
+  o.label = '<div class="bar-label'+(href?" drill":"")+'">'+esc(tr(f.name))+(href?CHEV:"")+'</div>';
+  if(href) o.href = href;
+  return bar(f.score, f.target, gk, o);
+}
+
+function pip(state,gk){
+  var c = gk ? ' style="--c:'+cvar(gk)+'"' : "";
+  return '<div class="pip '+esc(state||"off")+'"'+c+'></div>';
+}
+
+function scoreBlock(score,target,gk){
+  var col = score>=target ? cvar(gk) : "var(--ink-faint)";
+  return '<div class="pscore" style="--sc:'+col+'"><div class="n">'+score+'</div>'+
+         '<div class="t">'+esc(t("target"))+' '+target+'</div></div>';
+}
+
+function pageHeadStacked(title,intro,scoreHTML){
+  return '<div class="phead stacked"><div class="row">'+
+    '<h1 class="ptitle">'+esc(title)+'</h1>'+(scoreHTML||"")+'</div>'+
+    (intro?'<div class="pintro">'+intro+'</div>':'')+'</div>';
+}
+
+function pageHead(title,intro,scoreHTML){
+  return '<div class="phead"><div class="phead-l"><h1 class="ptitle">'+esc(title)+'</h1></div>'+
+    (intro?'<div class="pintro">'+intro+'</div>':'<div class="pintro"></div>')+
+    (scoreHTML||"")+'</div>';
+}
+
+function backLink(href,label){
+  return '<div class="backlink" data-go="'+esc(href)+'">'+
+    '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'+
+    esc(label)+'</div>';
+}
+
+/* ============ PAGES ============ */
+
+function renderHome(){
+  var cols = "";
+  for(var i=0;i<3;i++){
+    var gk=ORDER[i][0], g=ORDER[i][1];
+    var bars = g.findings.map(function(f){ return findingBar(gk,f); }).join("");
+    cols += '<div style="--c:'+cvar(gk)+'">'+
+      '<div class="dash-col-head"><a class="nm" data-go="#g-'+gk+'">'+esc(tr(g.name))+CHEV+'</a></div>'+
+      bars+'</div>';
+  }
+
+  var devBars = [DEV.coachable, DEV.figureItOut].map(function(d){
+    return bar(d.score,d.target,"grey",{label:'<div class="bar-label">'+esc(tr(d.name))+'</div>'});
+  }).join("");
+
+  var otherBars = GROUP_OTHER.findings.map(function(f){ return findingBar("other",f); }).join("");
+
+  var confBlock = bar(CONFIDENCE.score,CONFIDENCE.target,"grey",
+      {label:'<div class="bar-label">'+esc(tr(CONFIDENCE.label))+'</div>'})+
+    '<div class="conf-note">'+tr(CONFIDENCE.note)+'</div>';
+
+  var sub = '<div class="subdash">'+
+    '<div><h3>'+esc(t("dash.development"))+'</h3>'+devBars+'</div>'+
+    '<div><h3><a class="nm" data-go="#g-other">'+esc(t("dash.other"))+CHEV+'</a></h3>'+otherBars+'</div>'+
+    '<div><h3>'+esc(t("dash.confidence"))+'</h3>'+confBlock+'</div>'+
+  '</div>';
+
+  var tiles = '<div style="margin-top:72px"><div class="section-h">'+esc(t("nav.lushin"))+'</div>'+
+    '<div class="tiles">'+
+      '<div class="tile" data-go="#strengths"><div class="k">'+esc(CANDIDATE.name)+'</div><div class="v">'+esc(t("strengths.title"))+'</div></div>'+
+      '<div class="tile" data-go="#focus"><div class="k">'+esc(CANDIDATE.name)+'</div><div class="v">'+esc(t("focus.title"))+'</div></div>'+
+    '</div></div>';
+
+  return '<div class="sheet"><div class="dash">'+cols+'</div>'+sub+tiles+'</div>';
+}
+
+function renderGroup(gk){
+  var g=GROUPS[gk];
+  var rows = g.findings.map(function(f){
+    var at = atTarget(f);
+    return '<tr><td class="col-bar">'+findingBar(gk,f)+'</td>'+
+      '<td class="col-txt'+(at?" off":"")+'" data-lab="'+esc(t("growthLabel"))+'">'+esc(tr(f.growth))+'</td>'+
+      '<td class="col-txt'+(at?"":" off")+'" data-lab="'+esc(t("strengthLabel"))+'">'+esc(tr(f.strength))+'</td></tr>';
+  }).join("");
+
+  return '<div class="sheet">'+
+    pageHead(tr(g.name), esc(tr(g.intro)))+
+    '<table class="ctable"><thead><tr><th></th>'+
+      '<th>'+esc(t("growthLabel"))+'</th><th>'+esc(t("strengthLabel"))+'</th></tr></thead>'+
+    '<tbody>'+rows+'</tbody></table></div>';
+}
+
+function renderFinding(gk,id){
+  var g=GROUPS[gk], f=findFinding(gk,id);
+  if(!f) return renderGroup(gk);
+  var head = backLink("#g-"+gk, tr(g.name)) +
+    pageHeadStacked(tr(f.name), esc(DEFS[gk+"."+f.id] ? tr(DEFS[gk+"."+f.id]) : ""), scoreBlock(f.score,f.target,gk));
+  var d=f.drill, body="";
+
+  if(!d){
+    body = '<div class="clist"><div class="crow"><div class="nm">'+esc(t("growthLabel"))+'</div>'+
+      '<div class="ds">'+esc(tr(f.growth))+'</div></div>'+
+      '<div class="crow"><div class="nm">'+esc(t("strengthLabel"))+'</div>'+
+      '<div class="ds">'+esc(tr(f.strength))+'</div></div></div>';
+  } else if(d.type==="checklist"){
+    body = '<div class="clist">'+d.items.map(function(it){
+      var cls = it.desc ? "crow" : "crow plain";
+      return '<div class="'+cls+'">'+pip(it.state,gk)+
+        '<div class="nm">'+esc(tr(it.name))+'</div>'+
+        (it.desc?'<div class="ds">'+esc(tr(it.desc))+'</div>':'')+'</div>';
+    }).join("")+'</div>';
+  } else if(d.type==="beliefs"){
+    body = '<table class="ttable"><thead><tr><th class="lim">'+esc(t("beliefs.lim"))+'</th><th></th>'+
+      '<th class="sup">'+esc(t("beliefs.sup"))+'</th></tr></thead><tbody>'+
+      d.pairs.map(function(p){
+        return '<tr><td class="lim">'+esc(tr(p.lim))+'</td><td class="arrow">»</td>'+
+          '<td class="sup">'+esc(tr(p.sup))+'</td></tr>';
+      }).join("")+'</tbody></table>';
+  } else if(d.type==="compat"){
+    body = '<table class="ttable"><tbody>'+d.pairs.map(function(p){
+      return '<tr><td class="lab">'+esc(tr(p.label))+'</td><td>'+
+        p.values.map(function(v){return esc(tr(v));}).join("<br>")+'</td></tr>';
+    }).join("")+'</tbody></table>';
+  } else if(d.type==="motivation"){
+    var s=d.style;
+    var mb = [["Extrinsic","Extrínseco",s.extrinsic],["Intrinsic","Intrínseco",s.intrinsic],["Altruistic","Altruista",s.altruistic]];
+    var top = Math.max(s.extrinsic,s.intrinsic,s.altruistic);
+    var mbars = mb.map(function(r){
+      var label = STATE.lang==="es" ? r[1] : r[0];
+      return bar(r[2], r[2]===top?0:101, "will", {label:'<div class="bar-label">'+esc(label)+'</div>'})
+        .replace(/<div class="bar-tick"[\s\S]*?<\/div>/,"");
+    }).join("");
+    body = '<h2 class="mstyle-title">'+esc(t("motivation.styleTitle"))+': '+esc(tr(s.dominant))+'</h2>'+
+      '<div class="mbars">'+mbars+'</div>'+
+      '<div class="mcols"><div><h4>'+esc(t("motivation.attributes"))+'</h4>'+
+        d.attributes.map(function(a){
+          return '<div class="mrow">'+pip(a.state,"will")+'<span>'+esc(tr(a.name))+'</span></div>';
+        }).join("")+
+      '</div><div class="rule"></div><div><h4>'+esc(t("motivation.tendencies"))+'</h4>'+
+        d.tendencies.map(function(x){return '<div class="tend">'+tr(x)+'</div>';}).join("")+
+      '</div></div>';
+  }
+  return '<div class="sheet">'+head+body+'</div>';
+}
+
+function renderCurated(kind){
+  var list = kind==="strengths" ? STRENGTHS : FOCUS;
+  var cards = list.map(function(item){
+    var gk=item.ref[0], f=findFinding(gk,item.ref[1]), g=GROUPS[gk];
+    var why = item.reason
+      ? '<div class="why">'+esc(tr(item.reason))+'</div>'
+      : '<div class="why">'+esc(tr(f.strength))+'</div>';
+    return '<div class="fcard" style="--c:'+cvar(gk)+'">'+
+      '<div><div class="gname">'+esc(tr(g.name))+'</div>'+findingBar(gk,f)+'</div>'+
+      why+'</div>';
+  }).join("");
+  return '<div class="sheet">'+
+    pageHead(t(kind+".title"), esc(t(kind+".intro")))+cards+'</div>';
+}
+
+/* ============ SIDEBAR ============ */
+function sidebar(route){
+  var out = '<div class="sb-head">'+
+    '<div class="sb-name">'+esc(CANDIDATE.company)+'</div>'+
+    '<div class="sb-doc">'+esc(CANDIDATE.name)+'</div>'+
+    '<div class="sb-role">'+esc(tr(CANDIDATE.role))+'</div></div><div class="sb-nav">';
+
+  function item(href,label,color,extra){
+    var on = route===href;
+    return '<div class="sb-item'+(on?" active":"")+'" data-go="'+href+'"'+
+      (color?' style="--c:'+color+'"':'')+'><div class="dot"></div><span>'+esc(label)+'</span></div>'+(extra||"");
+  }
+
+  out += item("#home", t("nav.dashboard"), "var(--ink-faint)");
+
+  out += '<div class="sb-group-label">'+esc(t("nav.lushin"))+'</div>';
+  out += item("#strengths", t("strengths.title"), "var(--ink-faint)");
+  out += item("#focus", t("focus.title"), "var(--ink-faint)");
+
+  out += '<div class="sb-group-label">'+esc(t("nav.competencies"))+'</div>';
+  for(var i=0;i<ORDER.length;i++){
+    var gk=ORDER[i][0], g=ORDER[i][1];
+    var isIn = route==="#g-"+gk || route.indexOf("#f-"+gk+"-")===0;
+    var subs = '<div class="sb-sub'+(isIn?" open":"")+'">'+
+      g.findings.map(function(f){
+        if(!f.drill) return "";
+        var href="#f-"+gk+"-"+f.id;
+        return '<div class="sb-subitem'+(route===href?" active":"")+'" data-go="'+href+'">'+esc(tr(f.name))+'</div>';
+      }).join("")+'</div>';
+    var navDot = gk==="other" ? "var(--ink-faint)" : cvar(gk);
+    out += item("#g-"+gk, tr(g.name), navDot, subs);
+  }
+  out += '</div>';
+
+  out += '<div class="sb-foot">'+
+    langToggle("")+
+    '<div class="sb-foot-row"><span class="sb-foot-label">'+esc(t("theme"))+'</span>'+
+      '<button class="icon-btn" id="themeBtn" aria-label="'+esc(t("theme"))+'">'+
+      (STATE.theme==="dark"
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>')+
+      '</button></div>'+
+  '</div>';
+  return out;
+}
+
+function langToggle(extraCls){
+  var on = function(l){ return STATE.lang===l ? " on":""; };
+  return '<div class="seg lang'+(extraCls?" "+extraCls:"")+'" role="group" aria-label="'+esc(t("lang.label"))+'">'+
+    '<button data-lang="en" class="'+on("en")+'">'+esc(UI.en["lang.en"])+'</button>'+
+    '<button data-lang="es" class="'+on("es")+'">'+esc(UI.en["lang.es"])+'</button></div>';
+}
+
+/* ============ ROUTER ============ */
+function crumbFor(route){
+  if(route.indexOf("#f-")===0){
+    var p=route.slice(3).split("-"), gk=p[0], id=p.slice(1).join("-");
+    var g=GROUPS[gk], f=findFinding(gk,id);
+    return g ? '<b>'+esc(tr(g.name))+'</b>' + (f?' &nbsp;/&nbsp; '+esc(tr(f.name)):"") : "";
+  }
+  if(route.indexOf("#g-")===0){ var gg=GROUPS[route.slice(3)]; return gg?'<b>'+esc(tr(gg.name))+'</b>':""; }
+  if(route==="#strengths") return '<b>'+esc(t("strengths.title"))+'</b>';
+  if(route==="#focus") return '<b>'+esc(t("focus.title"))+'</b>';
+  return '<b>'+esc(t("nav.dashboard"))+'</b>';
+}
+
+function view(route){
+  if(route.indexOf("#f-")===0){
+    var p=route.slice(3).split("-");
+    return renderFinding(p[0], p.slice(1).join("-"));
+  }
+  if(route.indexOf("#g-")===0) return renderGroup(route.slice(3));
+  if(route==="#strengths") return renderCurated("strengths");
+  if(route==="#focus") return renderCurated("focus");
+  return renderHome();
+}
+
+function render(){
+  var route = location.hash || "#home";
+  if(!/^#(home|strengths|focus|g-|f-)/.test(route)) route="#home";
+  document.documentElement.setAttribute("data-theme", STATE.theme);
+  document.documentElement.setAttribute("lang", STATE.lang);
+  document.getElementById("sidebar").innerHTML = sidebar(route);
+  document.getElementById("crumb").innerHTML = crumbFor(route);
+  document.getElementById("topLang").innerHTML = langToggle("compact");
+  var main = document.getElementById("view");
+  main.className = route==="#home" ? "flushtop" : "";
+  main.innerHTML = view(route);
+  document.getElementById("sidebar").classList.toggle("closed", !STATE.sidebar);
+  document.getElementById("main").classList.toggle("wide", !STATE.sidebar);
+  document.title = CANDIDATE.name + " — " + t("nav.title");
+  window.scrollTo(0,0);
+}
+
+document.addEventListener("click", function(e){
+  var go = e.target.closest("[data-go]");
+  if(go){ location.hash = go.getAttribute("data-go"); return; }
+  var lang = e.target.closest("[data-lang]");
+  if(lang){ STATE.lang = lang.getAttribute("data-lang"); save(); render(); return; }
+  if(e.target.closest("#themeBtn")){ STATE.theme = STATE.theme==="dark"?"light":"dark"; save(); render(); return; }
+  if(e.target.closest("#burger")){ STATE.sidebar = !STATE.sidebar; save(); render(); return; }
+});
+document.addEventListener("keydown", function(e){
+  if(e.key!=="Enter" && e.key!==" ") return;
+  var go = e.target && e.target.closest && e.target.closest("[data-go][tabindex]");
+  if(go){ e.preventDefault(); location.hash = go.getAttribute("data-go"); }
+});
+window.addEventListener("hashchange", render);
+render();
+</script>
+</body>
+</html>
